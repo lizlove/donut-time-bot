@@ -20,52 +20,48 @@
 
 module.exports = function(controller) {
 
-    controller.hears([':doughnut:'], 'direct_message,direct_mention', function(bot, message) {
-
-        let recipientsArr = message.text.match(/\<@(.*?)\>/g);
+    controller.hears([':doughnut:', ':donut:', ':donuttime:'], 'ambient', function(bot, message) {
 
         // load sender from storage
-        // verify that sender dailyDonutsDonated < 6
+        // add error handling
+        // verify that sender dailyDonutsDonated < 6 (return donatedDonuts)
+            // TODO: replace when you have db access variable
+            let dailyDonutsRemain = 5;
+            // If no
+            // bot.reply( message, "You've given your last donut for the day. You've truly shown there's no "I" in donut. Donut worry be happy! You'll have a fresh box of donuts tomorrow.");
             // If yes
             // send DM's to the recipients
+            let recipientsArr = message.text.match(/\<@(.*?)\>/g);
+            let donutCount = [...message.text.match(/^:donut:$/), ...message.text.match(/^:doughnut:$/), ...message.text.match(/^:donuttime:$/)].length;
             recipientsArr.forEach(recipient => {
                 let dmChannel = recipient.replace(/[<@>]/g, '');
                 let sender = message.user.replace(/[<@>]/g, '');
-                notifyRecipeintOfDonutGiven(dmChannel, sender);
-                // increment the sender dailyDonutsDonated
+                notifyRecipeintOfDonutGiven(dmChannel, message.user, donutCount);
+                incrementdailyDonutsDonated(dmChannel, message.user, donutCount, dailyDonutsRemain);
                 // increment the recipients lifetimeDonuts
-            })
-            // If no
-            // You've given your last donut for the day. You've truly shown there's no "I" in donut. Donut worry be happy! You'll have a fresh box of donuts tomorrow.
-
-        controller.storage.users.get(message.user, function(err, user) {
-
-            // user object can contain arbitary keys. we will store tasks in .tasks
-            if (!user || !user.tasks || user.tasks.length == 0) {
-                bot.reply(message, 'TESTING There are no tasks on your list. Say `add _task_` to add something.');
-            } else {
-
-                var text = 'Here are your current tasks: \n' +
-                    generateTaskList(user) +
-                    'Reply with `done _number_` to mark a task completed.';
-
-                bot.reply(message, text);
-
-            }
-
-        });
+            });
 
     });
 
-    // simple function to generate the text of the task list so that
-    // it can be used in various places
-    function notifyRecipeintOfDonutGiven(recipient, sender) {
+    function notifyRecipeintOfDonutGiven(recipient, sender, donutCount) {
+        console.log('DONUT COUNT', donutCount);
         let message = {
           text: `You received 1 donut :doughnut: from ${sender}!`,
           channel: recipient // a valid slack channel, group, mpim, or im ID
         };
         bot.say(message, function(res, err) {
-            console.log(res, err, 'PRIVATE RETURNED');
+            console.log(res, err, 'Notified recipient');
+        });
+    }
+
+    function incrementdailyDonutsDonated(dmChannel, message.user, donutCount, dailyDonutsRemain) {
+        // increment in the database
+        let message = {
+          text: `${recipient} received ${donutCount} donut from you. You have ${dailyDonutsRemain} donuts remaining donuts left to give out today.`,
+          channel: sender // a valid slack channel, group, mpim, or im ID
+        };
+        bot.say(message, function(res, err) {
+            console.log(res, err, 'Notified sender');
         });
     }
 
@@ -140,18 +136,4 @@ module.exports = function(controller) {
         }
 
     });
-
-    // simple function to generate the text of the task list so that
-    // it can be used in various places
-    function generateTaskList(user) {
-
-        var text = '';
-
-        for (var t = 0; t < user.tasks.length; t++) {
-            text = text + '> `' +  (t + 1) + '`) ' +  user.tasks[t] + '\n';
-        }
-
-        return text;
-
-    }
 }
