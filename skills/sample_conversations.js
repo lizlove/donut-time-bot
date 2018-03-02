@@ -27,13 +27,13 @@ module.exports = function(controller) {
     });
 
 
-    controller.hears(['question'], 'direct_message,direct_mention', function(bot, message) {
+    controller.hears(['cheese'], 'direct_message,direct_mention', function(bot, message) {
 
         bot.createConversation(message, function(err, convo) {
 
             // create a path for when a user says YES
             convo.addMessage({
-                    text: 'How wonderful.',
+                    text: 'How wonderful. :doughnut:s Rule.',
             },'yes_thread');
 
             // create a path for when a user says NO
@@ -51,7 +51,7 @@ module.exports = function(controller) {
             },'bad_response');
 
             // Create a yes/no question in the default thread...
-            convo.ask('Do you like cheese?', [
+            convo.ask('Do you like doughnuts?', [
                 {
                     pattern:  bot.utterances.yes,
                     callback: function(response, convo) {

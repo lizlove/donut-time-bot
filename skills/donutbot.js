@@ -20,30 +20,56 @@
 
 module.exports = function(controller) {
 
-    // listen for someone saying 'tasks' to the bot
-    // reply with a list of current tasks loaded from the storage system
-    // based on this user's id
-    controller.hears(['tasks','todo'], 'direct_message', function(bot, message) {
+    controller.hears([':doughnut:', ':donut:', ':donuttime:', ':donut2:'], 'ambient', function(bot, message) {
+        console.log('message', message);
+        const dailyDonutsDonated = 2;
 
-        // load user from storage...
-        controller.storage.users.get(message.user, function(err, user) {
+        if (dailyDonutsDonated >= 6 ) {
 
-            // user object can contain arbitary keys. we will store tasks in .tasks
-            if (!user || !user.tasks || user.tasks.length == 0) {
-                bot.reply(message, 'There are no tasks on your list. Say `add _task_` to add something.');
+            bot.reply(message, "You've given your last donut for the day. You've truly shown there's no I in donut. Donut worry be happy! You'll have a fresh box of donuts tomorrow.");
+
+        } else {
+            const recipientsArr = message.text.match(/\<@(.*?)\>/g);
+            const count = message.text.match(/\:d(.*?)\:/g).length;
+            const total = recipientsArr.length * count;
+            const remain = 6 - dailyDonutsDonated;
+
+            if (total > remain) {
+                bot.reply(message, "Your generosity knows no bounds! Unfortunately your donut box does know bounds. You don't have enough in there to send all of those donuts.");
             } else {
-
-                var text = 'Here are your current tasks: \n' +
-                    generateTaskList(user) +
-                    'Reply with `done _number_` to mark a task completed.';
-
-                bot.reply(message, text);
-
+                recipientsArr.forEach(recipient => {
+                    let getter = recipient.replace(/[<@>]/g, '');
+                    let sender = message.user.replace(/[<@>]/g, '');
+                    notifyRecipeintOfDonutGiven(getter, sender, count);
+                    notifySenderOfDonutsSent(getter, sender, count);
+                });
             }
-
-        });
+        }
 
     });
+
+    function notifyRecipeintOfDonutGiven(recipient, sender, count) {
+        let message = {
+          text: `You received ${count} donut :donuttime: from <@${sender}>!`,
+          channel: recipient // a valid slack channel, group, mpim, or im ID
+        };
+        bot.say(message, function(res, err) {
+            console.log(res, err, 'Notified reciever');
+        });
+        // TODO: increment lifetimeDonuts
+    }
+
+    function notifySenderOfDonutsSent(recipient, sender, count) {
+        // TODO: increment in the database
+        // return current db count
+        let message = {
+          text: `<@${recipient}> received ${count} donuts from you. You have ${6 - count} donuts remaining donuts left to give out today.`,
+          channel: sender // a valid slack channel, group, mpim, or im ID
+        };
+        bot.say(message, function(res, err) {
+            console.log(res, err, 'Notified sender');
+        });
+    }
 
     // listen for a user saying "add <something>", and then add it to the user's list
     // store the new list in the storage system
@@ -116,18 +142,4 @@ module.exports = function(controller) {
         }
 
     });
-
-    // simple function to generate the text of the task list so that
-    // it can be used in various places
-    function generateTaskList(user) {
-
-        var text = '';
-
-        for (var t = 0; t < user.tasks.length; t++) {
-            text = text + '> `' +  (t + 1) + '`) ' +  user.tasks[t] + '\n';
-        }
-
-        return text;
-
-    }
 }
