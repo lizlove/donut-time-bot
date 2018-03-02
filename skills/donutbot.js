@@ -20,44 +20,34 @@
 
 module.exports = function(controller) {
 
-    controller.hears([':doughnut:', ':donut:', ':donuttime:'], 'ambient', function(bot, message) {
-
-        // load sender from storage
-        // add error handling
-        // verify that sender dailyDonutsDonated < 6 (return donatedDonuts)
-            // TODO: replace when you have db access variable
-            let dailyDonutsRemain = 5;
-            // If no
-            // bot.reply( message, "You've given your last donut for the day. You've truly shown there's no "I" in donut. Donut worry be happy! You'll have a fresh box of donuts tomorrow.");
-            // If yes
-            // send DM's to the recipients
-            let recipientsArr = message.text.match(/\<@(.*?)\>/g);
-            let donutCount = [...message.text.match(/^:donut:$/), ...message.text.match(/^:doughnut:$/), ...message.text.match(/^:donuttime:$/)].length;
-            recipientsArr.forEach(recipient => {
-                let dmChannel = recipient.replace(/[<@>]/g, '');
-                let sender = message.user.replace(/[<@>]/g, '');
-                notifyRecipeintOfDonutGiven(dmChannel, message.user, donutCount);
-                incrementdailyDonutsDonated(dmChannel, message.user, donutCount, dailyDonutsRemain);
-                // increment the recipients lifetimeDonuts
-            });
-
+    controller.hears([':doughnut:', ':donut:', ':donuttime:', ':donut2:'], 'ambient', function(bot, message) {
+        console.log('message', message);
+        // If yes
+        // send DM's to the recipients
+        let recipientsArr = message.text.match(/\<@(.*?)\>/g);
+        recipientsArr.forEach(recipient => {
+            let getter = recipient.replace(/[<@>]/g, '');
+            let sender = message.user.replace(/[<@>]/g, '');
+            let count = 2;
+            notifyRecipeintOfDonutGiven(getter, sender, count);
+            incrementdailyDonutsDonated(getter, sender, count);
+        });
     });
 
-    function notifyRecipeintOfDonutGiven(recipient, sender, donutCount) {
-        console.log('DONUT COUNT', donutCount);
+    function notifyRecipeintOfDonutGiven(recipient, sender, count) {
         let message = {
-          text: `You received 1 donut :doughnut: from ${sender}!`,
+          text: `You received ${count} donut :donuttime: from <@${sender}>!`,
           channel: recipient // a valid slack channel, group, mpim, or im ID
         };
         bot.say(message, function(res, err) {
-            console.log(res, err, 'Notified recipient');
+            console.log(res, err, 'Notified reciever');
         });
     }
 
-    function incrementdailyDonutsDonated(dmChannel, message.user, donutCount, dailyDonutsRemain) {
+    function incrementdailyDonutsDonated(recipient, sender, count) {
         // increment in the database
         let message = {
-          text: `${recipient} received ${donutCount} donut from you. You have ${dailyDonutsRemain} donuts remaining donuts left to give out today.`,
+          text: `<@${recipient}> received ${count} donuts from you. You have 4 donuts remaining donuts left to give out today.`,
           channel: sender // a valid slack channel, group, mpim, or im ID
         };
         bot.say(message, function(res, err) {
