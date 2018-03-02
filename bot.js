@@ -140,6 +140,7 @@ if (!process.env.clientId || !process.env.clientSecret) {
   // If a trigger is matched, the conversation will automatically fire!
   // You can tie into the execution of the script using the functions
   // controller.studio.before, controller.studio.after and controller.studio.validate
+  // TODO: REMOVE THIS?
   if (process.env.studio_token) {
       controller.on('direct_message,direct_mention,mention', function(bot, message) {
           controller.studio.runTrigger(bot, message.text, message.user, message.channel, message).then(function(convo) {

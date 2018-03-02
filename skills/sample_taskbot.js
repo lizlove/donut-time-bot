@@ -20,17 +20,29 @@
 
 module.exports = function(controller) {
 
-    // listen for someone saying 'tasks' to the bot
-    // reply with a list of current tasks loaded from the storage system
-    // based on this user's id
-    controller.hears(['tasks','todo'], 'direct_message', function(bot, message) {
+    controller.hears([':doughnut:'], 'direct_message,direct_mention', function(bot, message) {
 
-        // load user from storage...
+        let recipientsArr = message.text.match(/\<@(.*?)\>/g);
+
+        // load sender from storage
+        // verify that sender dailyDonutsDonated < 6
+            // If yes
+            // send DM's to the recipients
+            recipientsArr.forEach(recipient => {
+                let dmChannel = recipient.replace(/[<@>]/g, '');
+                let sender = message.user.replace(/[<@>]/g, '');
+                notifyRecipeintOfDonutGiven(dmChannel, sender);
+                // increment the sender dailyDonutsDonated
+                // increment the recipients lifetimeDonuts
+            })
+            // If no
+            // You've given your last donut for the day. You've truly shown there's no "I" in donut. Donut worry be happy! You'll have a fresh box of donuts tomorrow.
+
         controller.storage.users.get(message.user, function(err, user) {
 
             // user object can contain arbitary keys. we will store tasks in .tasks
             if (!user || !user.tasks || user.tasks.length == 0) {
-                bot.reply(message, 'There are no tasks on your list. Say `add _task_` to add something.');
+                bot.reply(message, 'TESTING There are no tasks on your list. Say `add _task_` to add something.');
             } else {
 
                 var text = 'Here are your current tasks: \n' +
@@ -44,6 +56,18 @@ module.exports = function(controller) {
         });
 
     });
+
+    // simple function to generate the text of the task list so that
+    // it can be used in various places
+    function notifyRecipeintOfDonutGiven(recipient, sender) {
+        let message = {
+          text: `You received 1 donut :doughnut: from ${sender}!`,
+          channel: recipient // a valid slack channel, group, mpim, or im ID
+        };
+        bot.say(message, function(res, err) {
+            console.log(res, err, 'PRIVATE RETURNED');
+        });
+    }
 
     // listen for a user saying "add <something>", and then add it to the user's list
     // store the new list in the storage system
