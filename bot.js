@@ -62,6 +62,7 @@ if (!process.env.clientId || !process.env.clientSecret || !process.env.PORT) {
 
 var Botkit = require('botkit');
 var debug = require('debug')('botkit:main');
+var Bluebird = require('bluebird');
 
 var bot_options = {
     clientId: process.env.clientId,
@@ -75,7 +76,10 @@ var bot_options = {
 // Use a mongo database if specified, otherwise store in a JSON file local to the app.
 // Mongo is automatically configured when deploying to Heroku
 if (process.env.MONGO_URI) {
-    var mongoStorage = require('botkit-storage-mongo')({mongoUri: process.env.MONGO_URI});
+    var mongoStorage = require('botkit-storage-mongo')({
+        mongoUri: process.env.MONGO_URI,
+        tables: ['users']
+    });
     bot_options.storage = mongoStorage;
 } else {
     bot_options.json_file_store = __dirname + '/.data/db/'; // store user data in a simple JSON format
@@ -179,3 +183,83 @@ function usage_tip() {
     console.log('Get a Botkit Studio token here: https://studio.botkit.ai/')
     console.log('~~~~~~~~~~');
 }
+
+const DONUTS_PER_DAY = 6;
+
+// Later these will come from parsing.
+const TEST_RECIPIENT = '123FOO';
+const TEST_QUANTITY = 1;
+
+function donutPersistTest() {
+    // console.log('BEACON top of donutPersistTest');
+    // controller.hears([':doughnut:', ':donut:'],'ambient', function(bot, message) {
+
+
+        const bot = {
+            reply: console.log,
+            api: {
+                reactions: {
+                    add: console.log
+                }
+            }
+        };
+
+        const message = {
+            user: TEST_RECIPIENT + '2',
+            channel: 'general',
+            ts: 1
+        };
+
+
+
+        return Bluebird.all([
+            controller.storage.users.get(message.user)
+                .then((donor) => {
+                                // if (!user) {
+                    console.log('BEACON got donor');
+                    console.log(donor);
+
+                    const donationCount = TEST_QUANTITY;
+                    if (donor.dailyDonutsDonated + donationCount > DONUTS_PER_DAY) {
+                        // TODO direct message the user about the shortage
+                        throw new Error('Insufficient donuts to give');
+                    }
+
+                    return controller.storage.users.save({
+                        id: donor.id,
+                        dailyDonutsDonated: donor.dailyDonutsDonated + donationCount
+                    });
+                }),
+            controller.storage.users.get(TEST_RECIPIENT)
+                .then((recipient) => {
+                    return controller.storage.users.save({
+                        id: recipient.id,
+                        lifetimeDonuts: recipient.lifetimeDonuts + TEST_QUANTITY
+                    });
+                })
+        ]).then(() => {
+            // TODO direct message the giver instead of talking in the channel.
+            bot.api.reactions.add({
+                name: 'thumbsup',
+                channel: message.channel,
+                timestamp: message.ts
+            });
+        }).catch((error) => {
+                bot.reply(message, 'I got confused about how to prepare your donuts... ' + error);
+            }
+        );
+    // });
+}
+
+Bluebird.all([
+    controller.storage.users.save({
+        id: TEST_RECIPIENT,
+        lifetimeDonuts: 77,
+        dailyDonutsDonated: 0
+    }),
+    controller.storage.users.save({
+        id: TEST_RECIPIENT + '2',
+        lifetimeDonuts: 66,
+        dailyDonutsDonated: 0
+    })
+]).then(donutPersistTest);
