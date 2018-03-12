@@ -192,64 +192,55 @@ const TEST_RECIPIENT = '123FOO';
 const TEST_QUANTITY = 1;
 
 function donutPersistTest() {
-    // console.log('BEACON top of donutPersistTest');
-    // controller.hears([':doughnut:', ':donut:'],'ambient', function(bot, message) {
+    const bot = {
+        reply: console.log,
+        api: {
+            reactions: {
+                add: console.log
+            }
+        }
+    };
 
+    const message = {
+        user: TEST_RECIPIENT + '2',
+        channel: 'general',
+        ts: 1
+    };
 
-        const bot = {
-            reply: console.log,
-            api: {
-                reactions: {
-                    add: console.log
+    return Bluebird.all([
+        controller.storage.users.get(message.user)
+            .then((donor) => {
+                const donationCount = TEST_QUANTITY;
+                if (donor.dailyDonutsDonated + donationCount > DONUTS_PER_DAY) {
+                    // TODO direct message the user about the shortage
+                    throw new Error('Insufficient donuts to give');
                 }
-            }
-        };
 
-        const message = {
-            user: TEST_RECIPIENT + '2',
-            channel: 'general',
-            ts: 1
-        };
-
-
-
-        return Bluebird.all([
-            controller.storage.users.get(message.user)
-                .then((donor) => {
-                                // if (!user) {
-                    console.log('BEACON got donor');
-                    console.log(donor);
-
-                    const donationCount = TEST_QUANTITY;
-                    if (donor.dailyDonutsDonated + donationCount > DONUTS_PER_DAY) {
-                        // TODO direct message the user about the shortage
-                        throw new Error('Insufficient donuts to give');
-                    }
-
-                    return controller.storage.users.save({
-                        id: donor.id,
-                        dailyDonutsDonated: donor.dailyDonutsDonated + donationCount
-                    });
-                }),
-            controller.storage.users.get(TEST_RECIPIENT)
-                .then((recipient) => {
-                    return controller.storage.users.save({
-                        id: recipient.id,
-                        lifetimeDonuts: recipient.lifetimeDonuts + TEST_QUANTITY
-                    });
-                })
-        ]).then(() => {
-            // TODO direct message the giver instead of talking in the channel.
-            bot.api.reactions.add({
-                name: 'thumbsup',
-                channel: message.channel,
-                timestamp: message.ts
-            });
-        }).catch((error) => {
-                bot.reply(message, 'I got confused about how to prepare your donuts... ' + error);
-            }
-        );
-    // });
+                return controller.storage.users.save({
+                    id: donor.id,
+                    dailyDonutsDonated: donor.dailyDonutsDonated + donationCount,
+                    lifetimeDonuts: donor.lifetimeDonuts
+                });
+            }),
+        controller.storage.users.get(TEST_RECIPIENT)
+            .then((recipient) => {
+                return controller.storage.users.save({
+                    id: recipient.id,
+                    dailyDonutsDonated: recipient.dailyDonutsDonated,
+                    lifetimeDonuts: recipient.lifetimeDonuts + TEST_QUANTITY
+                });
+            })
+    ]).then(() => {
+        // TODO direct message the giver instead of talking in the channel.
+        bot.api.reactions.add({
+            name: 'thumbsup',
+            channel: message.channel,
+            timestamp: message.ts
+        });
+    }).catch((error) => {
+            bot.reply(message, 'I got confused about how to prepare your donuts... ' + error);
+        }
+    );
 }
 
 Bluebird.all([
