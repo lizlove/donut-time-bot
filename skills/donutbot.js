@@ -18,56 +18,79 @@
 
 */
 
+const Bluebird = require('bluebird');
+
 module.exports = function(controller) {
 
     controller.hears([':doughnut:', ':donut:', ':donuttime:', ':donut2:'], 'ambient', function(bot, message) {
         console.log('message', message);
-        const dailyDonutsDonated = 2;
+        let sender = message.user.replace(/[<@>]/g, '');
+        controller.storage.users.get(message.user)
+            .then((senderObj) => {
+                const dailyDonutsDonated = senderObj && senderObj.dailyDonutsDonated;
+                if (senderObj && dailyDonutsDonated >= 6 ) {
 
-        if (dailyDonutsDonated >= 6 ) {
+                    bot.reply(message, "You've given your last donut for the day. You've truly shown there's no I in donut. Donut worry be happy! You'll have a fresh box of donuts tomorrow.");
+                } else {
+                    const recipientsArr = message.text.match(/\<@(.*?)\>/g);
+                    const count = message.text.match(/\:d(.*?)\:/g).length;
+                    const total = recipientsArr.length * count;
+                    const remain = 6 - dailyDonutsDonated;
 
-            bot.reply(message, "You've given your last donut for the day. You've truly shown there's no I in donut. Donut worry be happy! You'll have a fresh box of donuts tomorrow.");
+                    if (total > remain) {
+                        bot.reply(message, "Your generosity knows no bounds! Unfortunately your donut box does know bounds. You don't have enough in there to send all of those donuts.");
+                    } else {
+                        recipientsArr.forEach(recipient => {
+                            let getter = recipient.replace(/[<@>]/g, '');
 
-        } else {
-            const recipientsArr = message.text.match(/\<@(.*?)\>/g);
-            const count = message.text.match(/\:d(.*?)\:/g).length;
-            const total = recipientsArr.length * count;
-            const remain = 6 - dailyDonutsDonated;
-
-            if (total > remain) {
-                bot.reply(message, "Your generosity knows no bounds! Unfortunately your donut box does know bounds. You don't have enough in there to send all of those donuts.");
-            } else {
-                recipientsArr.forEach(recipient => {
-                    let getter = recipient.replace(/[<@>]/g, '');
-                    let sender = message.user.replace(/[<@>]/g, '');
-                    notifyRecipeintOfDonutGiven(getter, sender, count);
-                    notifySenderOfDonutsSent(getter, sender, count);
-                });
-            }
-        }
-
+                            // TODO async timing
+                            notifyRecipeintOfDonutGiven(getter, sender, count);
+                            notifySenderOfDonutsSent(getter, sender, count);
+                        });
+                    }
+                }
+            });
     });
 
-    function notifyRecipeintOfDonutGiven(recipient, sender, count) {
+    function notifyRecipeintOfDonutGiven(recipientId, sender, count) {
         let message = {
           text: `You received ${count} donut :donuttime: from <@${sender}>!`,
-          channel: recipient // a valid slack channel, group, mpim, or im ID
+          channel: recipientId // a valid slack channel, group, mpim, or im ID
         };
         bot.say(message, function(res, err) {
             console.log(res, err, 'Notified reciever');
         });
-        // TODO: increment lifetimeDonuts
+        return controller.storage.users.get(recipientId)
+            .then((recipient) => {
+                console.log('recipient ddd')
+                return controller.storage.users.save({
+                    id: recipient ? recipient.id : recipientId,
+                    dailyDonutsDonated: recipient ? recipient.dailyDonutsDonated : 0,
+                    lifetimeDonuts: recipient ? recipient.lifetimeDonuts + count : count
+                });
+            });
     }
 
     function notifySenderOfDonutsSent(recipient, sender, count) {
         // TODO: increment in the database
-        // return current db count
-        let message = {
-          text: `<@${recipient}> received ${count} donuts from you. You have ${6 - count} donuts remaining donuts left to give out today.`,
-          channel: sender // a valid slack channel, group, mpim, or im ID
-        };
-        bot.say(message, function(res, err) {
-            console.log(res, err, 'Notified sender');
-        });
+        controller.storage.users.get(sender)
+            .then((donor) => {
+                return controller.storage.users.save({
+                    id: donor ? donor.id : sender,
+                    dailyDonutsDonated: donor ? donor.dailyDonutsDonated + count : count,
+                    lifetimeDonuts: donor ? donor.lifetimeDonuts : 0
+                });
+            })
+            .then(() => {
+                let message = {
+                    text: `<@${recipient}> received ${count} donuts from you. You have ${6 - count} donuts remaining donuts left to give out today.`,
+                    channel: sender // a valid slack channel, group, mpim, or im ID
+                };
+
+                bot.say(message, function(res, err) {
+                    console.log(res, err, 'Notified sender');
+                });
+            })
+            .catch((error) => console.log(error));
     }
 }
