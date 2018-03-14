@@ -111,8 +111,17 @@ module.exports = function(controller) {
             .catch((error) => console.log(error));
     }
 
-    // Returns a promise.
+    // Returns a promise that resolves to a array of all users
+    // in descending order by lifetimeDonuts.
     function getLeaderboardData() {
+        const BLACKLIST = [
+            'D0GK339RN', // slackbot
+            'D9Q0NDWKF', // climatebot
+            'D9PA82SGH', // Birthday Bot
+            'D38NAD5CZ', // heytaco
+            'D9QU70Y3H' // sameroom
+        ];
+
         // For now, just get all rows from users table and put them into a array, sort them.
         return controller.storage.users.all(
             (error, users) => {
@@ -123,7 +132,14 @@ module.exports = function(controller) {
                 return users;
             }
         ).then(
-            (users) => users.sort()
+            (users) => {
+                return users.filter(
+                    (user) => BLACKLIST.indexOf(user.id) === -1
+                )
+                .sort(
+                    (a, b) => b.lifetimeDonuts - a.lifetimeDonuts
+                );
+            }
         );
     }
 
