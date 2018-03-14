@@ -130,10 +130,14 @@ if (!process.env.clientId || !process.env.clientSecret) {
   // enable advanced botkit studio metrics
   require('botkit-studio-metrics')(controller);
 
+  console.log(`bot.js before requiring skills`);
+
   var normalizedPath = require("path").join(__dirname, "skills");
   require("fs").readdirSync(normalizedPath).forEach(function(file) {
     require("./skills/" + file)(controller);
   });
+
+  console.log(`bot.js after requiring skills`);
 
   // This captures and evaluates any message sent to the bot as a DM
   // or sent to the bot in the form "@bot message" and passes it to
