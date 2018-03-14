@@ -53,20 +53,38 @@ module.exports = function(controller) {
     });
 
     function notifyRecipeintOfDonutGiven(recipientId, sender, count) {
-        let message = {
-          text: `You received ${count} donut :donuttime: from <@${sender}>!`,
-          channel: recipientId // a valid slack channel, group, mpim, or im ID
-        };
-        bot.say(message, function(res, err) {
-            console.log(res, err, 'Notified reciever');
-        });
         return controller.storage.users.get(recipientId)
             .then((recipient) => {
-                return controller.storage.users.save({
-                    id: recipient ? recipient.id : recipientId,
-                    dailyDonutsDonated: recipient ? recipient.dailyDonutsDonated : 0,
-                    lifetimeDonuts: recipient ? recipient.lifetimeDonuts + count : count
+                let text = `You received ${count} donut :donuttime: from <@${sender}>!`;
+                let toSave = {};
+
+                if (recipient) {
+                    recipient.lifetimeDonuts += count;
+                    text += ` You have received ${ recipient.lifetimeDonuts } donuts in total.`;
+                    toSave = {
+                        id: recipient.id,
+                        dailyDonutsDonated: recipient.dailyDonutsDonated,
+                        lifetimeDonuts: recipient.lifetimeDonuts
+                    };
+                }
+                else {
+                    toSave = {
+                        id: recipientId,
+                        dailyDonutsDonated: 0,
+                        lifetimeDonuts: count
+                    };
+                }
+
+                let message = {
+                  text: text,
+                  channel: recipientId // a valid slack channel, group, mpim, or im ID
+                };
+
+                bot.say(message, function(res, err) {
+                    console.log(res, err, 'Notified reciever');
                 });
+
+                return controller.storage.users.save(toSave);
             });
     }
 
