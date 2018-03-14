@@ -53,14 +53,19 @@ module.exports = function(controller) {
     });
 
     function notifyRecipeintOfDonutGiven(recipientId, sender, count) {
+        console.log('top of notifyRecipeintOfDonutGiven');
+
         return controller.storage.users.get(recipientId)
             .then((recipient) => {
+                console.log(`notifyRecipeintOfDonutGiven, recipient.id is ${ recipient.id }`);
+
                 let text = `You received ${count} donut :donuttime: from <@${sender}>!`;
                 let toSave = {};
 
                 if (recipient) {
                     recipient.lifetimeDonuts += count;
                     text += ` You have received ${ recipient.lifetimeDonuts } donuts in total.`;
+
                     toSave = {
                         id: recipient.id,
                         dailyDonutsDonated: recipient.dailyDonutsDonated,
