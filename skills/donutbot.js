@@ -109,4 +109,18 @@ module.exports = function(controller) {
             (users) => users.sort()
         );
     }
+
+    // Returns a promise.
+    function getUserData(userId) {
+        return controller.storage.users.get(
+            userId,
+            (error, user) => {
+                if (error) {
+                    throw new Error(error);
+                }
+
+                return user;
+            }
+        );
+    }
 }
