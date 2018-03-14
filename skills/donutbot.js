@@ -33,6 +33,7 @@ module.exports = function(controller) {
                     bot.reply(message, "You've given your last donut for the day. You've truly shown there's no I in donut. Donut worry be happy! You'll have a fresh box of donuts tomorrow.");
                 } else {
                     const recipientsArr = message.text.match(/\<@(.*?)\>/g);
+                    // TODO: filter out the sender from the recipients list (anticheat).
                     const count = message.text.match(/\:d(.*?)\:/g).length;
                     const total = recipientsArr.length * count;
                     const remain = 6 - dailyDonutsDonated;
@@ -94,7 +95,6 @@ module.exports = function(controller) {
     }
 
     function notifySenderOfDonutsSent(recipient, sender, count) {
-        // TODO: increment in the database
         controller.storage.users.get(sender)
             .then((donor) => {
                 return controller.storage.users.save({
