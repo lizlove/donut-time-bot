@@ -93,4 +93,17 @@ module.exports = function(controller) {
             })
             .catch((error) => console.log(error));
     }
+
+    function getLeaderboardData() {
+        // For now, just get all rows from users table and put them into a array, sort them.
+        return controller.storage.users.all((error, users) => {
+            if (error) {
+                throw new Error(error);
+            }
+
+            return users;
+        }).then(
+            (users) => users.sort()
+        );
+    }
 }
