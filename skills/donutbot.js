@@ -62,7 +62,6 @@ module.exports = function(controller) {
         });
         return controller.storage.users.get(recipientId)
             .then((recipient) => {
-                console.log('recipient ddd')
                 return controller.storage.users.save({
                     id: recipient ? recipient.id : recipientId,
                     dailyDonutsDonated: recipient ? recipient.dailyDonutsDonated : 0,
