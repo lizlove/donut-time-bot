@@ -27,6 +27,8 @@ module.exports = function(controller) {
         let sender = message.user.replace(/[<@>]/g, '');
         controller.storage.users.get(message.user)
             .then((senderObj) => {
+                console.log('hears(), after getting senderObj, which is ' + JSON.stringify(senderObj));
+
                 const dailyDonutsDonated = senderObj && senderObj.dailyDonutsDonated;
                 if (senderObj && dailyDonutsDonated >= 6 ) {
 
