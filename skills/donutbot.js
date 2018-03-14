@@ -35,7 +35,10 @@ module.exports = function(controller) {
                     bot.reply(message, "You've given your last donut for the day. You've truly shown there's no I in donut. Donut worry be happy! You'll have a fresh box of donuts tomorrow.");
                 } else {
                     const recipientsArr = message.text.match(/\<@(.*?)\>/g);
-                    // TODO: filter out the sender from the recipients list (anticheat).
+                        .map((recipient) => recipient.replace(/[<@>]/g, ''))
+                        // TODO: filter out the sender from the recipients list (anticheat).
+                        // .filter((recipient) => recipient !== sender);
+
                     const count = message.text.match(/\:d(.*?)\:/g).length;
                     const total = recipientsArr.length * count;
                     const remain = 6 - dailyDonutsDonated;
@@ -44,11 +47,9 @@ module.exports = function(controller) {
                         bot.reply(message, "Your generosity knows no bounds! Unfortunately your donut box does know bounds. You don't have enough in there to send all of those donuts.");
                     } else {
                         recipientsArr.forEach(recipient => {
-                            let getter = recipient.replace(/[<@>]/g, '');
-
                             // TODO async timing
-                            notifyRecipeintOfDonutGiven(getter, sender, count);
-                            notifySenderOfDonutsSent(getter, sender, count);
+                            notifyRecipeintOfDonutGiven(recipient, sender, count);
+                            notifySenderOfDonutsSent(recipient, sender, count);
                         });
                     }
                 }
