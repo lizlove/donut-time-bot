@@ -18,8 +18,6 @@
 
 */
 
-const Bluebird = require('bluebird');
-
 module.exports = function(controller) {
 
     controller.hears([':doughnut:', ':donut:', ':donuttime:', ':donut2:'], 'ambient', function(bot, message) {
@@ -86,8 +84,8 @@ module.exports = function(controller) {
                 }
 
                 let message = {
-                  text: text,
-                  channel: recipientId // a valid slack channel, group, mpim, or im ID
+                    text: text,
+                    channel: recipientId // a valid slack channel, group, mpim, or im ID
                 };
 
                 bot.say(message, function(res, err) {
@@ -165,4 +163,4 @@ module.exports = function(controller) {
             }
         );
     }
-}
+};
