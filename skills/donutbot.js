@@ -1,7 +1,6 @@
 /*
 
-    This is a sample bot that provides a simple todo list function
-    and demonstrates the Botkit storage system.
+    This is a custom donut bot
 
     Botkit comes with a generic storage system that can be used to
     store arbitrary information about a user or channel. Storage
