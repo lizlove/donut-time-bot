@@ -109,11 +109,19 @@ module.exports = function(controller) {
             .then((donor) => {
                 donorObj = donor;
 
-                return controller.storage.users.save({
-                    id: donor ? donor.id : sender,
-                    dailyDonutsDonated: donor ? donor.dailyDonutsDonated + count : count,
-                    lifetimeDonuts: donor ? donor.lifetimeDonuts : 0
-                });
+                let toSave = donor ?
+                    {
+                        id: donor.id,
+                        dailyDonutsDonated: donor.dailyDonutsDonated + count,
+                        lifetimeDonuts: donor.lifetimeDonuts
+                    } :
+                    {
+                        id: sender,
+                        dailyDonutsDonated: count,
+                        lifetimeDonuts: 0
+                    };
+
+                return controller.storage.users.save(toSave);
             })
             .then(() => {
                 let message = {
