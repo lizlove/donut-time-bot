@@ -57,6 +57,8 @@ module.exports = function(controller) {
     function notifyRecipeintOfDonutGiven(recipientId, sender, count) {
         console.log('top of notifyRecipeintOfDonutGiven');
 
+        let message;
+
         return controller.storage.users.get(recipientId)
             .then((recipient) => {
                 console.log(`notifyRecipeintOfDonutGiven, recipient.id is ${ recipient.id }`);
@@ -82,16 +84,21 @@ module.exports = function(controller) {
                     };
                 }
 
-                let message = {
+                message = {
                     text: text,
                     channel: recipientId // a valid slack channel, group, mpim, or im ID
                 };
 
-                bot.say(message, function(res, err) {
+                return controller.storage.users.save(toSave);
+            })
+            .then(() => {
+                if (! message) {
+                    return;
+                }
+
+                return bot.say(message, function(res, err) {
                     console.log(res, err, 'Notified reciever');
                 });
-
-                return controller.storage.users.save(toSave);
             });
     }
 
