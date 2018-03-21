@@ -26,8 +26,12 @@ module.exports = function(controller) {
             .then((senderObj) => {
                 console.log('hears(), after getting senderObj, which is: ' + JSON.stringify(senderObj));
 
-                const dailyDonutsDonated = senderObj && senderObj.dailyDonutsDonated;
-                if (senderObj && dailyDonutsDonated >= 6 ) {
+                if (! senderObj) {
+                    return bot.reply(message, ':thinking_face: I had some trouble retrieving your donut data.');
+                }
+
+                const dailyDonutsDonated = senderObj.dailyDonutsDonated;
+                if (dailyDonutsDonated >= 6) {
 
                     bot.reply(message, "You've given your last donut for the day. You've truly shown there's no I in donut. Donut worry be happy! You'll have a fresh box of donuts tomorrow.");
                 } else {
