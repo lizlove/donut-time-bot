@@ -113,11 +113,11 @@ module.exports = function(controller) {
     }
 
     function notifySenderOfDonutsSent(recipient, senderObj, count) {
-        sendorObj.dailyDonutsDonated += count;
+        senderObj.dailyDonutsDonated += count;
 
-        console.log(`notifySenderOfDonutsSent, about to save: ${ JSON.stringify(sendorObj) }`);
+        console.log(`notifySenderOfDonutsSent, about to save: ${ JSON.stringify(senderObj) }`);
 
-        return controller.storage.users.save(sendorObj)
+        return controller.storage.users.save(senderObj)
             .then(() => {
                 let message = {
                     text: `<@${recipient}> received ${count} donuts from you. You have ${6 - senderObj.dailyDonutsDonated} remaining donuts left to give out today.`,
