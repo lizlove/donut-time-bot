@@ -96,8 +96,12 @@ module.exports = function(controller) {
     }
 
     function notifySenderOfDonutsSent(recipient, sender, count) {
+        let donorObj;
+
         controller.storage.users.get(sender)
             .then((donor) => {
+                donorObj = donor;
+
                 return controller.storage.users.save({
                     id: donor ? donor.id : sender,
                     dailyDonutsDonated: donor ? donor.dailyDonutsDonated + count : count,
@@ -106,7 +110,7 @@ module.exports = function(controller) {
             })
             .then(() => {
                 let message = {
-                    text: `<@${recipient}> received ${count} donuts from you. You have ${6 - count} donuts remaining donuts left to give out today.`,
+                    text: `<@${recipient}> received ${count} donuts from you. You have ${6 - donorObj.dailyDonutsDonated} remaining donuts left to give out today.`,
                     channel: sender // a valid slack channel, group, mpim, or im ID
                 };
 
