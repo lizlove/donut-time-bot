@@ -30,7 +30,7 @@ module.exports = function(controller) {
                 if (! senderObj) {
                     // New user that is not in the donut DB.
                     senderObj = {
-                        id: message.user,
+                        id: sender,
                         dailyDonutsDonated: 0,
                         lifetimeDonuts: 0
                     };
