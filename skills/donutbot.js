@@ -44,7 +44,7 @@ module.exports = function(controller) {
                     const recipientsArr = message.text.match(/\<@(.*?)\>/g)
                         .map((recipient) => recipient.replace(/[<@>]/g, ''));
                         // TODO: Uncomment this after testing to filter out the sender from
-                        // the recipients list (anticheat).
+                        // the recipients list (anticheat). Commented for pre-alpha testing.
                         // .filter((recipient) => recipient !== sender);
 
                     const count = message.text.match(/\:d(.*?)\:/g).length;
