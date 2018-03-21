@@ -79,7 +79,7 @@ module.exports = function(controller) {
             .then((recipientObj) => {
                 console.log(`notifyRecipeintOfDonutGiven, just got recipientObj, which is: ${ JSON.stringify(recipientObj) }`);
 
-                let text = `You received ${count} donut :donuttime: from <@${senderObj.id}>!`;
+                let text = `You received ${count} donut(s) :donuttime: from <@${senderObj.id}>!`;
 
                 if (recipientObj) {
                     recipientObj.lifetimeDonuts += count;
