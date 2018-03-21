@@ -22,32 +22,18 @@ module.exports = function(controller) {
     controller.hears([':doughnut:', ':donut:', ':donuttime:', ':donut2:'], 'ambient', function(bot, message) {
         console.log('message', message);
         let sender = message.user.replace(/[<@>]/g, '');
-        let senderObj;
 
         controller.storage.users.get(message.user)
-            .then(foundUser => {
+            .then(senderObj => {
                 console.log('hears(), after getting senderObj, which is: ' + JSON.stringify(senderObj));
 
-                if (! foundUser) {
+                if (! senderObj) {
                     // New user that is not in the donut DB.
                     senderObj = {
                         id: message.user,
                         dailyDonutsDonated: 0,
                         lifetimeDonuts: 0
                     };
-
-                    // Not sure whether this returns the saved thing.
-                    // Docs are unclear (ctrl+F for 'findOneAndUpdate').
-                    // https://mongodb.github.io/node-mongodb-native/2.0/api/lib_collection.js.html
-                    return controller.storage.users.save(senderObj);
-                }
-
-                senderObj = foundUser;
-                return senderObj;
-            })
-            .then(s => {
-                if (! senderObj) {
-                    return bot.reply(message, ':thinking_face: I had some trouble retrieving your donut data.');
                 }
 
                 const dailyDonutsDonated = senderObj.dailyDonutsDonated;
