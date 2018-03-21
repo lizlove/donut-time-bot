@@ -44,10 +44,12 @@ module.exports = function(controller) {
                     if (total > remain) {
                         bot.reply(message, "Your generosity knows no bounds! Unfortunately your donut box does know bounds. You don't have enough in there to send all of those donuts.");
                     } else {
+                        // TODO race condition when one recipient is mentioned twice.
                         recipientsArr.forEach(recipient => {
-                            // TODO async timing
-                            notifyRecipeintOfDonutGiven(recipient, sender, count);
-                            notifySenderOfDonutsSent(recipient, sender, count);
+                            notifySenderOfDonutsSent(recipient, sender, count)
+                                .then(
+                                    notifyRecipeintOfDonutGiven.bind(undefined, recipient, sender, count)
+                                );
                         });
                     }
                 }
