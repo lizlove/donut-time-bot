@@ -24,7 +24,7 @@ module.exports = function(controller) {
         let sender = message.user.replace(/[<@>]/g, '');
         controller.storage.users.get(message.user)
             .then((senderObj) => {
-                console.log('hears(), after getting senderObj, which is ' + JSON.stringify(senderObj));
+                console.log('hears(), after getting senderObj, which is: ' + JSON.stringify(senderObj));
 
                 const dailyDonutsDonated = senderObj && senderObj.dailyDonutsDonated;
                 if (senderObj && dailyDonutsDonated >= 6 ) {
@@ -61,7 +61,7 @@ module.exports = function(controller) {
 
         return controller.storage.users.get(recipientId)
             .then((recipient) => {
-                console.log(`notifyRecipeintOfDonutGiven, recipient.id is ${ recipient.id }`);
+                console.log(`notifyRecipeintOfDonutGiven, just got recipient, which is: ${ JSON.stringify(recipient) }`);
 
                 let text = `You received ${count} donut :donuttime: from <@${sender}>!`;
                 let toSave = {};
@@ -89,6 +89,7 @@ module.exports = function(controller) {
                     channel: recipientId // a valid slack channel, group, mpim, or im ID
                 };
 
+                console.log('notifyRecipeintOfDonutGiven(), about to save: ' + JSON.stringify(toSave));
                 return controller.storage.users.save(toSave);
             })
             .then(() => {
@@ -107,20 +108,21 @@ module.exports = function(controller) {
 
         controller.storage.users.get(sender)
             .then((donor) => {
+                console.log(`notifySenderOfDonutsSent, just got donor which is: ${ JSON.stringify(donor) }`);
+
                 donorObj = donor;
 
-                let toSave = donor ?
-                    {
-                        id: donor.id,
-                        dailyDonutsDonated: donor.dailyDonutsDonated + count,
-                        lifetimeDonuts: donor.lifetimeDonuts
-                    } :
-                    {
-                        id: sender,
-                        dailyDonutsDonated: count,
-                        lifetimeDonuts: 0
-                    };
+                let toSave = donor ? {
+                    id: donor.id,
+                    dailyDonutsDonated: donor.dailyDonutsDonated + count,
+                    lifetimeDonuts: donor.lifetimeDonuts
+                } : {
+                    id: sender,
+                    dailyDonutsDonated: count,
+                    lifetimeDonuts: 0
+                };
 
+                console.log(`notifySenderOfDonutsSent, about to save: ${ JSON.stringify(toSave) }`);
                 return controller.storage.users.save(toSave);
             })
             .then(() => {
