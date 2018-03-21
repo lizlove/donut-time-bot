@@ -73,7 +73,7 @@ module.exports = function(controller) {
                     toSave = {
                         id: recipient.id,
                         dailyDonutsDonated: recipient.dailyDonutsDonated,
-                        lifetimeDonuts: recipient.lifetimeDonuts + count
+                        lifetimeDonuts: recipient.lifetimeDonuts
                     };
                 }
                 else {
