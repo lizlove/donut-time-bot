@@ -56,9 +56,9 @@ module.exports = function(controller) {
                     } else {
                         // TODO race condition when one recipient is mentioned twice.
                         recipientsArr.forEach(recipient => {
-                            notifySenderOfDonutsSent(recipient, sender, count)
+                            notifySenderOfDonutsSent(recipient, senderObj, count)
                                 .then(
-                                    notifyRecipeintOfDonutGiven.bind(undefined, recipient, sender, count)
+                                    notifyRecipeintOfDonutGiven.bind(undefined, recipient, senderObj, count)
                                 );
                         });
                     }
@@ -66,30 +66,23 @@ module.exports = function(controller) {
             });
     });
 
-    function notifyRecipeintOfDonutGiven(recipientId, sender, count) {
+    function notifyRecipeintOfDonutGiven(recipientId, senderObj, count) {
         console.log('top of notifyRecipeintOfDonutGiven');
 
         let message;
 
         return controller.storage.users.get(recipientId)
-            .then((recipient) => {
-                console.log(`notifyRecipeintOfDonutGiven, just got recipient, which is: ${ JSON.stringify(recipient) }`);
+            .then((recipientObj) => {
+                console.log(`notifyRecipeintOfDonutGiven, just got recipientObj, which is: ${ JSON.stringify(recipientObj) }`);
 
-                let text = `You received ${count} donut :donuttime: from <@${sender}>!`;
-                let toSave = {};
+                let text = `You received ${count} donut :donuttime: from <@${senderObj.id}>!`;
 
-                if (recipient) {
-                    recipient.lifetimeDonuts += count;
-                    text += ` You have received ${ recipient.lifetimeDonuts } donuts in total.`;
-
-                    toSave = {
-                        id: recipient.id,
-                        dailyDonutsDonated: recipient.dailyDonutsDonated,
-                        lifetimeDonuts: recipient.lifetimeDonuts
-                    };
+                if (recipientObj) {
+                    recipientObj.lifetimeDonuts += count;
+                    text += ` You have received ${ recipientObj.lifetimeDonuts } donuts in total.`;
                 }
                 else {
-                    toSave = {
+                    recipientObj = {
                         id: recipientId,
                         dailyDonutsDonated: 0,
                         lifetimeDonuts: count
@@ -101,8 +94,8 @@ module.exports = function(controller) {
                     channel: recipientId // a valid slack channel, group, mpim, or im ID
                 };
 
-                console.log('notifyRecipeintOfDonutGiven(), about to save: ' + JSON.stringify(toSave));
-                return controller.storage.users.save(toSave);
+                console.log('notifyRecipeintOfDonutGiven(), about to save: ' + JSON.stringify(recipientObj));
+                return controller.storage.users.save(recipientObj);
             })
             .then(() => {
                 if (! message) {
@@ -115,32 +108,16 @@ module.exports = function(controller) {
             });
     }
 
-    function notifySenderOfDonutsSent(recipient, sender, count) {
-        let donorObj;
+    function notifySenderOfDonutsSent(recipient, senderObj, count) {
+        sendorObj.dailyDonutsDonated += count;
 
-        controller.storage.users.get(sender)
-            .then((donor) => {
-                console.log(`notifySenderOfDonutsSent, just got donor which is: ${ JSON.stringify(donor) }`);
+        console.log(`notifySenderOfDonutsSent, about to save: ${ JSON.stringify(sendorObj) }`);
 
-                donorObj = donor;
-
-                let toSave = donor ? {
-                    id: donor.id,
-                    dailyDonutsDonated: donor.dailyDonutsDonated + count,
-                    lifetimeDonuts: donor.lifetimeDonuts
-                } : {
-                    id: sender,
-                    dailyDonutsDonated: count,
-                    lifetimeDonuts: 0
-                };
-
-                console.log(`notifySenderOfDonutsSent, about to save: ${ JSON.stringify(toSave) }`);
-                return controller.storage.users.save(toSave);
-            })
+        return controller.storage.users.save(sendorObj)
             .then(() => {
                 let message = {
-                    text: `<@${recipient}> received ${count} donuts from you. You have ${6 - donorObj.dailyDonutsDonated} remaining donuts left to give out today.`,
-                    channel: sender // a valid slack channel, group, mpim, or im ID
+                    text: `<@${recipient}> received ${count} donuts from you. You have ${6 - senderObj.dailyDonutsDonated} remaining donuts left to give out today.`,
+                    channel: senderObj.id // a valid slack channel, group, mpim, or im ID
                 };
 
                 bot.say(message, function(res, err) {
