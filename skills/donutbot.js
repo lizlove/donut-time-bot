@@ -18,6 +18,7 @@
 */
 
 module.exports = function(controller) {
+    // TODO midnight DDD reset.
 
     controller.hears([':doughnut:', ':donut:', ':donuttime:', ':donut2:'], 'ambient', function(bot, message) {
         console.log('message', message);
