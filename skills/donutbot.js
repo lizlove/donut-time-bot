@@ -74,8 +74,6 @@ module.exports = function(controller) {
     });
 
     function notifyRecipientOfDonutGiven(recipientId, senderObj, count) {
-        console.log('top of notifyRecipientOfDonutGiven');
-
         let message;
 
         return controller.storage.users.get(recipientId)
