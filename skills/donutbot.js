@@ -64,7 +64,7 @@ module.exports = function(controller) {
                         recipientsArr.forEach(recipient => {
                             notifySenderOfDonutsSent(recipient, senderObj, count)
                                 .then(
-                                    notifyRecipeintOfDonutGiven.bind(undefined, recipient, senderObj, count)
+                                    notifyRecipientOfDonutGiven.bind(undefined, recipient, senderObj, count)
                                 );
                         });
                     }
@@ -72,14 +72,14 @@ module.exports = function(controller) {
             });
     });
 
-    function notifyRecipeintOfDonutGiven(recipientId, senderObj, count) {
-        console.log('top of notifyRecipeintOfDonutGiven');
+    function notifyRecipientOfDonutGiven(recipientId, senderObj, count) {
+        console.log('top of notifyRecipientOfDonutGiven');
 
         let message;
 
         return controller.storage.users.get(recipientId)
             .then((recipientObj) => {
-                console.log(`notifyRecipeintOfDonutGiven, just got recipientObj, which is: ${ JSON.stringify(recipientObj) }`);
+                console.log(`notifyRecipientOfDonutGiven, just got recipientObj, which is: ${ JSON.stringify(recipientObj) }`);
 
                 let text = `You received ${count} donut(s) :donuttime: from <@${senderObj.id}>!`;
 
@@ -100,7 +100,7 @@ module.exports = function(controller) {
                     channel: recipientId // a valid slack channel, group, mpim, or im ID
                 };
 
-                console.log('notifyRecipeintOfDonutGiven(), about to save: ' + JSON.stringify(recipientObj));
+                console.log('notifyRecipientOfDonutGiven(), about to save: ' + JSON.stringify(recipientObj));
                 return controller.storage.users.save(recipientObj);
             })
             .then(() => {
