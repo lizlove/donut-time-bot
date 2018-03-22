@@ -109,7 +109,7 @@ module.exports = function(controller) {
                 }
 
                 return bot.say(message, function(res, err) {
-                    console.log(res, err, 'Notified reciever');
+                    console.log(res, err, 'Notified recipient');
                 });
             });
     }
