@@ -93,7 +93,7 @@ module.exports = function(controller) {
                 recipientObj.lifetimeDonuts += count;
 
                 message = {
-                    text: `You received ${count} donut(s) :donuttime: from <@${senderObj.id}>! You have received ${ recipientObj.lifetimeDonuts } donuts in total.`,
+                    text: `You received ${ nDonuts(count) } :donuttime: from <@${senderObj.id}>! You have received ${ nDonuts(recipientObj.lifetimeDonuts) } in total.`,
                     channel: recipientId // a valid slack channel, group, mpim, or im ID
                 };
 
@@ -119,7 +119,7 @@ module.exports = function(controller) {
         return controller.storage.users.save(senderObj)
             .then(() => {
                 let message = {
-                    text: `<@${recipientId}> received ${count} donuts from you. You have ${6 - senderObj.dailyDonutsDonated} remaining donuts left to give out today.`,
+                    text: `<@${ recipientId }> received ${ nDonuts(count) } from you. You have ${ nDonuts(6 - senderObj.dailyDonutsDonated) } remaining left to give out today.`,
                     channel: senderObj.id // a valid slack channel, group, mpim, or im ID
                 };
 
@@ -128,6 +128,13 @@ module.exports = function(controller) {
                 });
             })
             .catch((error) => console.log(error));
+    }
+
+    // Example usages:
+    // nDonuts(1) === '1 donut'
+    // nDonuts(2) === '2 donuts'
+    function nDonuts(n) {
+        return `${ n } ${ n === 1 ? 'donut' : 'donuts' }`;
     }
 
     // Returns a promise that resolves to a array of all users
