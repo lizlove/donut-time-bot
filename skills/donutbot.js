@@ -36,13 +36,13 @@ module.exports = function(controller) {
                     };
                 }
 
-                // const dailyDonutsDonated = senderObj.dailyDonutsDonated;
-                const dailyDonutsDonated = (message.text.indexOf('thesecretpassword') === -1) ?
-                    senderObj.dailyDonutsDonated :
-                    0;
+                let secretMode = message.text.indexOf('thesecretpassword') > -1;
+
+                const dailyDonutsDonated = secretMode ?
+                    0 :
+                    senderObj.dailyDonutsDonated;
 
                 if (dailyDonutsDonated >= 6) {
-
                     bot.reply(message, "You've given your last donut for the day. You've truly shown there's no I in donut. Donut worry be happy! You'll have a fresh box of donuts tomorrow.");
                 } else {
                     const recipientsArr = message.text.match(/\<@(.*?)\>/g)
