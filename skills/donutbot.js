@@ -21,7 +21,7 @@ module.exports = function(controller) {
 
     controller.hears([':doughnut:', ':donut:', ':donuttime:', ':donut2:'], 'ambient', function(bot, message) {
         console.log('message', message);
-        let sender = message.user.replace(/[<@>]/g, '');
+        let senderId = message.user.replace(/[<@>]/g, '');
 
         controller.storage.users.get(message.user)
             .then(senderObj => {
@@ -30,7 +30,7 @@ module.exports = function(controller) {
                 if (! senderObj) {
                     // New user that is not in the donut DB.
                     senderObj = {
-                        id: sender,
+                        id: senderId,
                         dailyDonutsDonated: 0,
                         lifetimeDonuts: 0
                     };
@@ -52,7 +52,7 @@ module.exports = function(controller) {
                         // Format
                         .map((recipient) => recipient.replace(/[<@>]/g, ''))
                         // Anticheat
-                        .filter((recipient) => (recipient !== sender) || secretMode);
+                        .filter((recipientId) => (recipientId !== senderId) || secretMode);
 
                     const count = message.text.match(/\:d(.*?)\:/g).length;
                     const total = recipientsArr.length * count;
