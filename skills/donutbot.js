@@ -45,11 +45,14 @@ module.exports = function(controller) {
                 if (dailyDonutsDonated >= 6) {
                     bot.reply(message, "You've given your last donut for the day. You've truly shown there's no I in donut. Donut worry be happy! You'll have a fresh box of donuts tomorrow.");
                 } else {
-                    const recipientsArr = message.text.match(/\<@(.*?)\>/g)
-                        .map((recipient) => recipient.replace(/[<@>]/g, ''));
-                        // TODO: Uncomment this after testing to filter out the sender from
-                        // the recipients list (anticheat). Commented for pre-alpha testing.
-                        // .filter((recipient) => recipient !== sender);
+                    let recipientsArr = message.text.match(/\<@(.*?)\>/g);
+
+                    // Remove duplicates
+                    recipientsArr = Array.from(new Set(recipientsArr))
+                        // Format
+                        .map((recipient) => recipient.replace(/[<@>]/g, ''))
+                        // Anticheat
+                        .filter((recipient) => (recipient !== sender) || secretMode);
 
                     const count = message.text.match(/\:d(.*?)\:/g).length;
                     const total = recipientsArr.length * count;
