@@ -50,7 +50,7 @@ module.exports = function(controller) {
                     // Remove duplicates
                     recipientsArr = Array.from(new Set(recipientsArr))
                         // Format
-                        .map((recipient) => recipient.replace(/[<@>]/g, ''))
+                        .map((recipientId) => recipientId.replace(/[<@>]/g, ''))
                         // Anticheat
                         .filter((recipientId) => (recipientId !== senderId) || secretMode);
 
@@ -61,10 +61,10 @@ module.exports = function(controller) {
                     if (total > remain) {
                         bot.reply(message, "Your generosity knows no bounds! Unfortunately your donut box does know bounds. You don't have enough in there to send all of those donuts.");
                     } else {
-                        recipientsArr.forEach(recipient => {
-                            notifySenderOfDonutsSent(recipient, senderObj, count)
+                        recipientsArr.forEach(recipientId => {
+                            notifySenderOfDonutsSent(recipientId, senderObj, count)
                                 .then(
-                                    notifyRecipientOfDonutGiven.bind(undefined, recipient, senderObj, count)
+                                    notifyRecipientOfDonutGiven.bind(undefined, recipientId, senderObj, count)
                                 );
                         });
                     }
@@ -114,7 +114,7 @@ module.exports = function(controller) {
             });
     }
 
-    function notifySenderOfDonutsSent(recipient, senderObj, count) {
+    function notifySenderOfDonutsSent(recipientId, senderObj, count) {
         senderObj.dailyDonutsDonated += count;
 
         console.log(`notifySenderOfDonutsSent, about to save: ${ JSON.stringify(senderObj) }`);
@@ -122,7 +122,7 @@ module.exports = function(controller) {
         return controller.storage.users.save(senderObj)
             .then(() => {
                 let message = {
-                    text: `<@${recipient}> received ${count} donuts from you. You have ${6 - senderObj.dailyDonutsDonated} remaining donuts left to give out today.`,
+                    text: `<@${recipientId}> received ${count} donuts from you. You have ${6 - senderObj.dailyDonutsDonated} remaining donuts left to give out today.`,
                     channel: senderObj.id // a valid slack channel, group, mpim, or im ID
                 };
 
