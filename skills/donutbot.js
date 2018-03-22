@@ -81,22 +81,18 @@ module.exports = function(controller) {
             .then((recipientObj) => {
                 console.log(`notifyRecipientOfDonutGiven, just got recipientObj, which is: ${ JSON.stringify(recipientObj) }`);
 
-                let text = `You received ${count} donut(s) :donuttime: from <@${senderObj.id}>!`;
-
-                if (recipientObj) {
-                    recipientObj.lifetimeDonuts += count;
-                    text += ` You have received ${ recipientObj.lifetimeDonuts } donuts in total.`;
-                }
-                else {
+                if (! recipientObj) {
                     recipientObj = {
                         id: recipientId,
                         dailyDonutsDonated: 0,
-                        lifetimeDonuts: count
+                        lifetimeDonuts: 0
                     };
                 }
 
+                recipientObj.lifetimeDonuts += count;
+
                 message = {
-                    text: text,
+                    text: `You received ${count} donut(s) :donuttime: from <@${senderObj.id}>! You have received ${ recipientObj.lifetimeDonuts } donuts in total.`,
                     channel: recipientId // a valid slack channel, group, mpim, or im ID
                 };
 
