@@ -177,7 +177,7 @@ if (!process.env.clientId || !process.env.clientSecret) {
     // // Debug
     // console.log('Debug: Running dailyReset.js to see if it works this way.');
     // require('./bin/dailyReset.js');
-    // console.log('dailyReset.js has finished.');
+    // console.log('After dailyReset.js call.');
 }
 
 
