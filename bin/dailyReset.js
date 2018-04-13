@@ -12,10 +12,12 @@ function resetAllDailyCounts() {
 
     return mongoStorage.users.all()
         .then(users => 
-            users.map(user => {
-                user.dailyDonutsDonated = 0;
-                return mongoStorage.users.save(user);
-            })
+            Promise.all(
+                users.map(user => {
+                    user.dailyDonutsDonated = 0;
+                    return mongoStorage.users.save(user);
+                })
+            )
         )
         .then(users => {
             console.log(`Done resetting dailyDonutsDonated for ${ users.length } users.`)
