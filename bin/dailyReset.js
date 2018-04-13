@@ -20,6 +20,7 @@ function resetAllDailyCounts() {
             )
         )
         .then(users => {
-            console.log(`Done resetting dailyDonutsDonated for ${ users.length } users.`)
+            console.log(`Done resetting dailyDonutsDonated for ${ users.length } users.`);
+            return users;
         });
 }
