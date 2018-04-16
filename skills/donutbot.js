@@ -147,37 +147,21 @@ module.exports = function(controller) {
         ];
 
         // For now, just get all rows from users table and put them into a array, sort them.
-        return controller.storage.users.all(
-            (error, users) => {
-                if (error) {
-                    throw new Error(error);
+        return controller.storage.users.all()
+            .then(
+                users => {
+                    return users.filter(
+                        user => BLACKLIST.indexOf(user.id) === -1
+                    )
+                    .sort(
+                        (a, b) => b.lifetimeDonuts - a.lifetimeDonuts
+                    );
                 }
-
-                return users;
-            }
-        ).then(
-            (users) => {
-                return users.filter(
-                    (user) => BLACKLIST.indexOf(user.id) === -1
-                )
-                .sort(
-                    (a, b) => b.lifetimeDonuts - a.lifetimeDonuts
-                );
-            }
-        );
+            );
     }
 
     // Returns a promise.
     function getUserData(userId) {
-        return controller.storage.users.get(
-            userId,
-            (error, user) => {
-                if (error) {
-                    throw new Error(error);
-                }
-
-                return user;
-            }
-        );
+        return controller.storage.users.get(userId);
     }
 };
