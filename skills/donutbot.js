@@ -117,7 +117,7 @@ module.exports = function(controller) {
         return controller.storage.users.save(senderObj)
             .then(() => {
                 let message = {
-                    text: `<@${ recipientId }> received ${ nDonuts(count) } from you. You have ${ nDonuts(6 - senderObj.dailyDonutsDonated) } remaining left to give out today.`,
+                    text: `<@${ recipientId }> received ${ nDonuts(count) } from you. You have ${ nDonuts(6 - senderObj.dailyDonutsDonated) } remaining to give out today.`,
                     channel: senderObj.id // a valid slack channel, group, mpim, or im ID
                 };
 
