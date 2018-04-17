@@ -138,6 +138,7 @@ module.exports = function(controller) {
     // Returns a promise that resolves to a array of all users
     // in descending order by lifetimeDonuts.
     function getLeaderboardData() {
+        // To prevent bots from dominating the leaderboard
         const BLACKLIST = [
             'D0GK339RN', // slackbot
             'D9Q0NDWKF', // climatebot

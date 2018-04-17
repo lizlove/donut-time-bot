@@ -1,7 +1,7 @@
 {
   "name": "botkit-starter-slack",
   "version": "0.0.2",
-  "description": "A starter kit for building a custom Slack bot with Botkit Studio",
+  "description": "Find your center. Give thanks with donuts on Slack.",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js"
@@ -26,17 +26,17 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/howdyai/botkit-starter-slack.git"
+    "url": "https://github.com/lizlove//donut-time-bot.git"
   },
   "bugs": {
-    "url": "https://github.com/howdyai/botkit-starter-slack/issues"
+    "url": "https://github.com/lizlove//donut-time-bot.git"
   },
-  "homepage": "https://github.com/howdyai/botkit-starter-slack",
+  "homepage": "https://donuttime.herokuapp.com/",
   "keywords": [
     "bots",
-    "chatbots",
+    "donuts",
     "slack"
   ],
-  "author": "ben@howdy.ai",
-  "license": "ISC"
+  "author": "Luis Flores, Liz Lovero, and Alex Pear",
+  "license": "MIT"
 }
