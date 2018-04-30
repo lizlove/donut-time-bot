@@ -4,6 +4,6 @@ const leaderController = require('../../bin/leaderController');
 module.exports = function (webserver, controller) {
 
     debug('Configured /leaders');
-    webserver.get('/leaders', leaderController.getLeaders);
+    webserver.get('/leaders', leaderController.getLeaders, leaderController.getLeaderSlackIds);
 
 };

@@ -181,6 +181,6 @@ function usage_tip() {
     console.log('Donut Time Bot');
     console.log('Find your center.');
     console.log('Execute your bot application like this:');
-    console.log('clientId=<MY SLACK CLIENT ID> clientSecret=<MY CLIENT SECRET> PORT=3000 node bot.js');
+    console.log('clientId=<MY SLACK CLIENT ID> clientSecret=<MY CLIENT SECRET> mongoURI=<MY MONGO URI> slackToken=<MY SLACK TOKEN> PORT=3000 node bot.js');
     console.log('~~~~~~~~~~');
 }
