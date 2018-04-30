@@ -111,6 +111,7 @@ if (!process.env.clientId || !process.env.clientSecret) {
 } else {
 
     webserver.get('/', function(req, res){
+
         res.render('index', {
             domain: req.get('host'),
             protocol: req.protocol,
@@ -173,15 +174,7 @@ if (!process.env.clientId || !process.env.clientSecret) {
         });
     }
 
-    // // Debug
-    // console.log('Debug: Running dailyReset.js to see if it works this way.');
-    // require('./bin/dailyReset.js');
-    // console.log('After dailyReset.js call.');
 }
-
-
-
-
 
 function usage_tip() {
     console.log('~~~~~~~~~~');
