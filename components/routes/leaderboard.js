@@ -3,7 +3,7 @@ const leaderController = require('../../bin/leaderController');
 
 module.exports = function (webserver, controller) {
 
-    debug('Configured /leader');
-    webserver.get('/leader', leaderController.getLeaders);
+    debug('Configured /leaders');
+    webserver.get('/leaders', leaderController.getLeaders);
 
 };
