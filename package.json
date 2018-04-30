@@ -1,5 +1,5 @@
 {
-  "name": "botkit-starter-slack",
+  "name": "donut-time-bot",
   "version": "0.0.2",
   "description": "Find your center. Give thanks with donuts on Slack.",
   "main": "bot.js",
@@ -26,10 +26,10 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/lizlove//donut-time-bot.git"
+    "url": "https://github.com/lizlove/donut-time-bot.git"
   },
   "bugs": {
-    "url": "https://github.com/lizlove//donut-time-bot.git"
+    "url": "https://github.com/lizlove/donut-time-bot.git"
   },
   "homepage": "https://donuttime.herokuapp.com/",
   "keywords": [

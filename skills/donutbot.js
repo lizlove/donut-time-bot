@@ -18,14 +18,15 @@
 */
 
 module.exports = function(controller) {
-    // TODO midnight DDD reset.
 
     controller.hears([':doughnut:', ':donut:', ':donuttime:', ':donut2:'], 'ambient', function(bot, message) {
+        // TODO: Can we remove?
         console.log('message', message);
         let senderId = message.user.replace(/[<@>]/g, '');
 
         controller.storage.users.get(message.user)
             .then(senderObj => {
+                // TODO: Can we remove?
                 console.log('hears(), after getting senderObj, which is: ' + JSON.stringify(senderObj));
 
                 if (! senderObj) {

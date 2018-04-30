@@ -98,6 +98,8 @@ if (!process.env.clientId || !process.env.clientSecret) {
     webserver.get('/', function(req, res){
         res.render('installation', {
             studio_enabled: controller.config.studio_token ? true : false,
+            clientId: botOptions.clientId,
+            clientSecret: botOptions.clientSecret,
             domain: req.get('host'),
             protocol: req.protocol,
             glitch_domain:  process.env.PROJECT_DOMAIN,
@@ -105,15 +107,16 @@ if (!process.env.clientId || !process.env.clientSecret) {
         });
     })
 
-    var where_its_at = 'https://' + process.env.PROJECT_DOMAIN + '.glitch.me/';
-    console.log('WARNING: This application is not fully configured to work with Slack. Please see instructions at ' + where_its_at);
+    console.log('WARNING: This application is not fully configured.');
 } else {
+
     webserver.get('/', function(req, res){
         res.render('index', {
             domain: req.get('host'),
             protocol: req.protocol,
             glitch_domain:  process.env.PROJECT_DOMAIN,
-            layout: 'layouts/default'
+            layout: 'layouts/default',
+            leaderData: {}
         });
     })
     // Set up a simple storage backend for keeping a record of customers
@@ -168,10 +171,6 @@ if (!process.env.clientId || !process.env.clientSecret) {
                 debug('Botkit Studio: ', err);
             });
         });
-    } else {
-        console.log('~~~~~~~~~~');
-        console.log('NOTE: Botkit Studio functionality has not been enabled');
-        console.log('To enable, pass in a studio_token parameter with a token from https://studio.botkit.ai/');
     }
 
     // // Debug
@@ -186,10 +185,9 @@ if (!process.env.clientId || !process.env.clientSecret) {
 
 function usage_tip() {
     console.log('~~~~~~~~~~');
-    console.log('Botkit Starter Kit');
+    console.log('Donut Time Bot');
+    console.log('Find your center.');
     console.log('Execute your bot application like this:');
-    console.log('clientId=<MY SLACK CLIENT ID> clientSecret=<MY CLIENT SECRET> PORT=3000 studio_token=<MY BOTKIT STUDIO TOKEN> node bot.js');
-    console.log('Get Slack app credentials here: https://api.slack.com/apps')
-    console.log('Get a Botkit Studio token here: https://studio.botkit.ai/')
+    console.log('clientId=<MY SLACK CLIENT ID> clientSecret=<MY CLIENT SECRET> PORT=3000 node bot.js');
     console.log('~~~~~~~~~~');
 }
