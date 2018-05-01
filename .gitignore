@@ -35,6 +35,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+package-lock.json
 
 # Typescript v1 declaration files
 typings/
@@ -58,3 +59,9 @@ typings/
 .env
 
 T0DUA16J0.json
+123FOO.json
+123FOO2.json
+.DS_Store
+
+# vscode files
+.vscode

@@ -18,14 +18,15 @@
 */
 
 module.exports = function(controller) {
-    // TODO midnight DDD reset.
 
     controller.hears([':doughnut:', ':donut:', ':donuttime:', ':donut2:'], 'ambient', function(bot, message) {
+        // TODO: Can we remove?
         console.log('message', message);
         let senderId = message.user.replace(/[<@>]/g, '');
 
         controller.storage.users.get(message.user)
             .then(senderObj => {
+                // TODO: Can we remove?
                 console.log('hears(), after getting senderObj, which is: ' + JSON.stringify(senderObj));
 
                 if (! senderObj) {
@@ -133,32 +134,6 @@ module.exports = function(controller) {
     // nDonuts(2) === '2 donuts'
     function nDonuts(n) {
         return `${ n } ${ n === 1 ? 'donut' : 'donuts' }`;
-    }
-
-    // Returns a promise that resolves to a array of all users
-    // in descending order by lifetimeDonuts.
-    function getLeaderboardData() {
-        // To prevent bots from dominating the leaderboard
-        const BLACKLIST = [
-            'D0GK339RN', // slackbot
-            'D9Q0NDWKF', // climatebot
-            'D9PA82SGH', // Birthday Bot
-            'D38NAD5CZ', // heytaco
-            'D9QU70Y3H' // sameroom
-        ];
-
-        // For now, just get all rows from users table and put them into a array, sort them.
-        return controller.storage.users.all()
-            .then(
-                users => {
-                    return users.filter(
-                        user => BLACKLIST.indexOf(user.id) === -1
-                    )
-                    .sort(
-                        (a, b) => b.lifetimeDonuts - a.lifetimeDonuts
-                    );
-                }
-            );
     }
 
     // Returns a promise.

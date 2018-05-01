@@ -60,6 +60,7 @@ if (!process.env.clientId || !process.env.clientSecret || !process.env.PORT) {
 var Botkit = require('botkit');
 var debug = require('debug')('botkit:main');
 var Bluebird = require('bluebird');
+var leaderController = require('./bin/leaderController.js');
 
 var bot_options = {
     clientId: process.env.clientId,
@@ -98,33 +99,25 @@ if (!process.env.clientId || !process.env.clientSecret) {
     webserver.get('/', function(req, res){
         res.render('installation', {
             studio_enabled: controller.config.studio_token ? true : false,
+            clientId: botOptions.clientId,
+            clientSecret: botOptions.clientSecret,
             domain: req.get('host'),
             protocol: req.protocol,
-            glitch_domain:  process.env.PROJECT_DOMAIN,
             layout: 'layouts/default'
         });
     })
 
-    var where_its_at = 'https://' + process.env.PROJECT_DOMAIN + '.glitch.me/';
-    console.log('WARNING: This application is not fully configured to work with Slack. Please see instructions at ' + where_its_at);
+    console.log('WARNING: This application is not fully configured.');
 } else {
-    webserver.get('/', function(req, res){
-        res.render('index', {
-            domain: req.get('host'),
-            protocol: req.protocol,
-            glitch_domain:  process.env.PROJECT_DOMAIN,
-            layout: 'layouts/default'
-        });
-    })
+    
+    webserver.get('/', leaderController.getLeaders, leaderController.getLeaderSlackIds);
+    
     // Set up a simple storage backend for keeping a record of customers
     // who sign up for the app via the oauth
     require(__dirname + '/components/user_registration.js')(controller);
 
     // Send an onboarding message when a new team joins
     require(__dirname + '/components/onboarding.js')(controller);
-
-    // Load in some helpers that make running Botkit on Glitch.com better
-    require(__dirname + '/components/plugin_glitch.js')(controller);
 
     // enable advanced botkit studio metrics
     require('botkit-studio-metrics')(controller);
@@ -168,28 +161,15 @@ if (!process.env.clientId || !process.env.clientSecret) {
                 debug('Botkit Studio: ', err);
             });
         });
-    } else {
-        console.log('~~~~~~~~~~');
-        console.log('NOTE: Botkit Studio functionality has not been enabled');
-        console.log('To enable, pass in a studio_token parameter with a token from https://studio.botkit.ai/');
     }
 
-    // // Debug
-    // console.log('Debug: Running dailyReset.js to see if it works this way.');
-    // require('./bin/dailyReset.js');
-    // console.log('After dailyReset.js call.');
 }
-
-
-
-
 
 function usage_tip() {
     console.log('~~~~~~~~~~');
-    console.log('Botkit Starter Kit');
+    console.log('Donut Time Bot');
+    console.log('Find your center.');
     console.log('Execute your bot application like this:');
-    console.log('clientId=<MY SLACK CLIENT ID> clientSecret=<MY CLIENT SECRET> PORT=3000 studio_token=<MY BOTKIT STUDIO TOKEN> node bot.js');
-    console.log('Get Slack app credentials here: https://api.slack.com/apps')
-    console.log('Get a Botkit Studio token here: https://studio.botkit.ai/')
+    console.log('clientId=<MY SLACK CLIENT ID> clientSecret=<MY CLIENT SECRET> mongoURI=<MY MONGO URI> slackToken=<MY SLACK TOKEN> PORT=3000 node bot.js');
     console.log('~~~~~~~~~~');
 }

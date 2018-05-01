@@ -1,12 +1,17 @@
 <div class="hero">
-  <h1>Botkit Starter Kit</h1>
+  <h1>Donut Time Bot</h1>
+  <h2>Find your center</h2>
 </div>
 
 <div class="box">
-  <p>
-    <strong>✅ Your Botkit app is correctly deployed and running!</strong>
-    Connect it to Slack to complete the setup.
-  </p>
+  <h1>⚠️ Your local app is not up and running</h1>
+  <div class="input">
+    <label>Execute your bot application like this:</label>
+    <div class="addon">
+      <textarea rows="3" class="copyurl" id="startup">clientId=[YOUR CLIENT ID] clientSecret=[YOUR CLIENT SECRET] PORT=3000 node bot.js</textarea>
+      <button class="textarea" onclick="clipboard('startup')">Copy</button>
+    </div>
+  </div>
 
 
 </div>
@@ -199,14 +204,4 @@
     copyText.select();
     document.execCommand("Copy");
   }
-
-  function generateEnv() {
-    var clientId = document.getElementById('clientId').value || '<Your client ID value here>';
-    var clientSecret = document.getElementById('clientSecret').value || '<Your client secret value here>';
-
-    var env = '# slack app credentials\nclientId=' + clientId + '\nclientSecret=' + clientSecret;
-    document.getElementById('env_file').value = env;
-  }
-
-  generateEnv();
 </script>

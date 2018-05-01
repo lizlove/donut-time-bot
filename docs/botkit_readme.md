@@ -1,5 +1,8 @@
 # Donut Time
 
+This repo is based on a Slack bot Botkit starter package. Data about the Botkit package can be found below. 
+---
+
 This repo contains everything you need to get started building a Slack bot with [Botkit](https://botkit.ai) and [Botkit Studio](https://botkit.ai).
 
 Botkit is designed to ease the process of designing and running useful, creative bots that live inside messaging platforms. Bots are applications that can send and receive messages, and in many cases, appear alongside their human counterparts as users.
