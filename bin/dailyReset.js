@@ -6,7 +6,7 @@ function resetAllDailyCounts() {
     console.log('Resetting dailyDonutsDonated for all users...');
 
     var mongoStorage = require('botkit-storage-mongo')({
-        mongoUri: process.env.MONGO_URI,
+        mongoUri: process.env.mongoUri,
         tables: ['users']
     });
 
