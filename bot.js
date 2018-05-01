@@ -109,7 +109,7 @@ if (!process.env.clientId || !process.env.clientSecret) {
 
     console.log('WARNING: This application is not fully configured.');
 } else {
-
+    
     webserver.get('/', leaderController.getLeaders, leaderController.getLeaderSlackIds);
     
     // Set up a simple storage backend for keeping a record of customers
