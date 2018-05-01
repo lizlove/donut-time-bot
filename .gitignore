@@ -60,3 +60,6 @@ typings/
 
 T0DUA16J0.json
 .DS_Store
+
+# vscode files
+.vscode
