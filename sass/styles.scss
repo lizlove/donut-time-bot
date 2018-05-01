@@ -9,7 +9,8 @@ html {
     padding: 0;
     font-size: 18px;
     font-family: sans-serif;
-    background-color: #FFF;
+    background: #1CB2DC;
+    height: 100vh;
 }
 
 .wrapper {
@@ -208,6 +209,11 @@ body {
 .dt-table-col {
     height: 100%;
     width: 33.333333333%;
+}
+
+.dt-table-col--avatar {
+    height: 24px;
+    padding-right: 10px;
 }
 
 .dt-footer {

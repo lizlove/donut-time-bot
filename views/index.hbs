@@ -369,7 +369,7 @@
 		 {{#each leaders}}
 		<div class="dt-table-row dt-table-row--data">
 			<div class="dt-table-col dt-table-col--data">{{inc @index}}</div>
-			<div class="dt-table-col dt-table-col--data">{{this.real_name}}</div>
+			<div class="dt-table-col dt-table-col--data"><img class="dt-table-col--avatar" src={{this.avatar}} onerror={{imgerr this}}/>{{this.real_name}}</div>
 			<div class="dt-table-col dt-table-col--data">{{this.lifetimeDonuts}} 🍩</div>
 		</div>
 		{{/each}}

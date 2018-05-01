@@ -22,6 +22,11 @@ module.exports = function(controller) {
         return parseInt(value) + 1;
     });
 
+    hbs.registerHelper( 'imgerr', function(value, options){
+        value.onerror = "";
+        value.src = "./favicon-96x96.png";
+    })
+
 
     // import express middlewares that are present in /components/express_middleware
     var normalizedPath = require("path").join(__dirname, "express_middleware");
