@@ -173,6 +173,12 @@ body {
     }
 }
 
+.dt-title--donut {
+    color: black;
+    font-size: 48px;
+    margin: 48px auto 0;
+}
+
 .dt-table {
     margin: 60px 0 20px;
     grid-column: 2 / 3;
@@ -200,6 +206,16 @@ body {
     font-weight: 700;
 }
 
+.dt-table-row--directions {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #dad9d9;
+}
+
 @media (min-width: 768px) {
     .dt-table-row--data {
         font-size: 24px;
@@ -221,4 +237,11 @@ body {
     align-items: center;
     justify-content: center;
     margin-bottom: 40px;
+}
+
+code {
+    background-color: #dadada;
+    color: #575757;
+    font-size: 90%;
+    white-space: nowrap;
 }
