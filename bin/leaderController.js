@@ -21,11 +21,7 @@ exports.getLeaders = (req, res, next) => {
             users => {
                 return users.filter(
                     user => BLACKLIST.indexOf(user.id) === -1
-                )
-                    .sort(
-                        (a, b) => b.lifetimeDonuts - a.lifetimeDonuts
-                    );
-                    
+                )   
             }
         )
         .then(
@@ -66,7 +62,7 @@ exports.getLeaderSlackIds = (req, res) => {
     return Promise.all(options)
         .then(
             slackData => {
-                let leaderboard = slackData.map(
+                let leaders = slackData.map(
                     slack => {
                         slack = JSON.parse(slack);
                         let leader = users.find(user => user.id === slack.user.id);
@@ -75,8 +71,16 @@ exports.getLeaderSlackIds = (req, res) => {
                         leader.real_name = slack.user.profile.real_name_normalized || '';
                         return leader;
                     }
+                )
+                .sort(
+                    (a, b) => b.lifetimeDonuts - a.lifetimeDonuts
                 );
-                res.json({ leaderboard: leaderboard });
+                res.render('index', {
+                domain: req.get('host'),
+                protocol: req.protocol,
+                layout: 'layouts/default',
+                leaders: leaders
+            });
             }
         )
         .catch(

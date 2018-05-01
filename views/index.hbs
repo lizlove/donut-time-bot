@@ -357,7 +357,6 @@
 		</g>
 	</svg>
 </div>
-<div>{{leaderData}}</div>
 <div class="main">
 	<h1 class="dt-title">Donut Time! Leaderboard
 	</h1>
@@ -367,56 +366,12 @@
 			<div class="dt-table-col dt-table-col--title">Person</div>
 			<div class="dt-table-col dt-table-col--title">Total Donuts</div>
 		</div>
+		 {{#each leaders}}
 		<div class="dt-table-row dt-table-row--data">
-			<div class="dt-table-col dt-table-col--data">1</div>
-			<div class="dt-table-col dt-table-col--data">Chimpanzy</div>
-			<div class="dt-table-col dt-table-col--data">81 🍩</div>
+			<div class="dt-table-col dt-table-col--data">{{inc @index}}</div>
+			<div class="dt-table-col dt-table-col--data">{{this.real_name}}</div>
+			<div class="dt-table-col dt-table-col--data">{{this.lifetimeDonuts}} 🍩</div>
 		</div>
-		<div class="dt-table-row dt-table-row--data">
-			<div class="dt-table-col dt-table-col--data">2</div>
-			<div class="dt-table-col dt-table-col--data">Phantomfool</div>
-			<div class="dt-table-col dt-table-col--data">70 🍩</div>
-		</div>
-		<div class="dt-table-row dt-table-row--data">
-			<div class="dt-table-col dt-table-col--data">3</div>
-			<div class="dt-table-col dt-table-col--data">Hypnotwist</div>
-			<div class="dt-table-col dt-table-col--data">62 🍩</div>
-		</div>
-		<div class="dt-table-row dt-table-row--data">
-			<div class="dt-table-col dt-table-col--data">4</div>
-			<div class="dt-table-col dt-table-col--data">Brett
-			</div>
-			<div class="dt-table-col dt-table-col--data">52 🍩</div>
-		</div>
-		<div class="dt-table-row dt-table-row--data">
-			<div class="dt-table-col dt-table-col--data">5</div>
-			<div class="dt-table-col dt-table-col--data">AwkwardRascal</div>
-			<div class="dt-table-col dt-table-col--data">51 🍩</div>
-		</div>
-		<div class="dt-table-row dt-table-row--data">
-			<div class="dt-table-col dt-table-col--data">6</div>
-			<div class="dt-table-col dt-table-col--data">OriginalKraken</div>
-			<div class="dt-table-col dt-table-col--data">40 🍩</div>
-		</div>
-		<div class="dt-table-row dt-table-row--data">
-			<div class="dt-table-col dt-table-col--data">7</div>
-			<div class="dt-table-col dt-table-col--data">Succubusted</div>
-			<div class="dt-table-col dt-table-col--data">17 🍩</div>
-		</div>
-		<div class="dt-table-row dt-table-row--data">
-			<div class="dt-table-col dt-table-col--data">8</div>
-			<div class="dt-table-col dt-table-col--data">GrandMaggot</div>
-			<div class="dt-table-col dt-table-col--data">8 🍩</div>
-		</div>
-		<div class="dt-table-row dt-table-row--data">
-			<div class="dt-table-col dt-table-col--data">9</div>
-			<div class="dt-table-col dt-table-col--data">PitaPatriot</div>
-			<div class="dt-table-col dt-table-col--data">2 🍩</div>
-		</div>
-		<div class="dt-table-row dt-table-row--data">
-			<div class="dt-table-col dt-table-col--data">10</div>
-			<div class="dt-table-col dt-table-col--data">BonyNymph</div>
-			<div class="dt-table-col dt-table-col--data">0 🍩</div>
-		</div>
+		{{/each}}
 	</div>
 </div>

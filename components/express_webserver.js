@@ -18,6 +18,11 @@ module.exports = function(controller) {
     webserver.set('view engine', 'hbs');
     webserver.set('views', __dirname + '/../views/');
 
+    hbs.registerHelper('inc', function (value, options) {
+        return parseInt(value) + 1;
+    });
+
+
     // import express middlewares that are present in /components/express_middleware
     var normalizedPath = require("path").join(__dirname, "express_middleware");
     require("fs").readdirSync(normalizedPath).forEach(function(file) {

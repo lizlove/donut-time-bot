@@ -60,6 +60,7 @@ if (!process.env.clientId || !process.env.clientSecret || !process.env.PORT) {
 var Botkit = require('botkit');
 var debug = require('debug')('botkit:main');
 var Bluebird = require('bluebird');
+var leaderController = require('./bin/leaderController.js');
 
 var bot_options = {
     clientId: process.env.clientId,
@@ -102,7 +103,6 @@ if (!process.env.clientId || !process.env.clientSecret) {
             clientSecret: botOptions.clientSecret,
             domain: req.get('host'),
             protocol: req.protocol,
-            glitch_domain:  process.env.PROJECT_DOMAIN,
             layout: 'layouts/default'
         });
     })
@@ -110,16 +110,8 @@ if (!process.env.clientId || !process.env.clientSecret) {
     console.log('WARNING: This application is not fully configured.');
 } else {
 
-    webserver.get('/', function(req, res){
-
-        res.render('index', {
-            domain: req.get('host'),
-            protocol: req.protocol,
-            glitch_domain:  process.env.PROJECT_DOMAIN,
-            layout: 'layouts/default',
-            leaderData: {}
-        });
-    })
+    webserver.get('/', leaderController.getLeaders, leaderController.getLeaderSlackIds);
+    
     // Set up a simple storage backend for keeping a record of customers
     // who sign up for the app via the oauth
     require(__dirname + '/components/user_registration.js')(controller);
