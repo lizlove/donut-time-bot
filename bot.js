@@ -119,9 +119,6 @@ if (!process.env.clientId || !process.env.clientSecret) {
     // Send an onboarding message when a new team joins
     require(__dirname + '/components/onboarding.js')(controller);
 
-    // Load in some helpers that make running Botkit on Glitch.com better
-    require(__dirname + '/components/plugin_glitch.js')(controller);
-
     // enable advanced botkit studio metrics
     require('botkit-studio-metrics')(controller);
 
