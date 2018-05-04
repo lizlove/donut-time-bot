@@ -27,7 +27,7 @@ exports.getLeaders = (req, res, next) => {
         .then(
             data => {
                 if(!data.length) {
-                    res.json({ leaderData: 'NO DATA' });
+                    res.json({ leaders: [] });
                 }
                 req.users = data;
                 next();

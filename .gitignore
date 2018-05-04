@@ -70,4 +70,5 @@ T0DUA16J0.json
 .vscode
 
 # sass cache
-.sass-cache/
+.sass-cache
+.sass-cache/*
