@@ -358,24 +358,57 @@
 	</svg>
 </div>
 <div class="main">
-	<h1 class="dt-title">Donut Time! Leaderboard
-	</h1>
-	<div class="dt-table">
-		<div class="dt-table-row dt-table-row--title">
-			<div class="dt-table-col dt-table-col--title">Rank</div>
-			<div class="dt-table-col dt-table-col--title">Person</div>
-			<div class="dt-table-col dt-table-col--title">Lifetime Donuts Recieved</div>
+	<div class="dt-header">
+		<h1 class="dt-title">Donut Time! Leaderboard</h1>
+	</div>
+
+	<div class="dt-table dt-table--leader dt-table--desktop">
+		<div class="dt-table__row dt-table__row--heading">
+			<div class="dt-table__col">Rank</div>
+			<div class="dt-table__col">Person</div>
+			<div class="dt-table__col">Donuts Received</div>
 		</div>
 		 {{#each leaders}}
-		<div class="dt-table-row dt-table-row--data">
-			<div class="dt-table-col dt-table-col--data">{{inc @index}}</div>
-			<div class="dt-table-col dt-table-col--data"><img class="dt-table-col--avatar" src={{this.avatar}} onerror={{imgerr this}}/>{{this.real_name}}</div>
-			<div class="dt-table-col dt-table-col--data">{{this.lifetimeDonuts}} 🍩</div>
+		<div class="dt-table__row dt-table__row--data">
+			<div class="dt-table__col">{{inc @index}}</div>
+			<div class="dt-table__col">
+				<div class="dt-table__leader-container">
+					<img class="dt-table__avatar" src={{this.avatar}} onerror={{imgerr this}}/>
+					<span class="dt-table__leader-name">{{this.real_name}}</span>
+				</div>
+			</div>
+			<div class="dt-table__col">{{this.lifetimeDonuts}} 🍩</div>
 		</div>
 		{{/each}}
 	</div>
+
+	{{#each leaders}}
+	<div class="dt-table dt-table--leader dt-table--mobile">
+		<div class="dt-table__row">
+			<div class="dt-table__leader-container">
+				<img class="dt-table__avatar" src={{this.avatar}} onerror={{imgerr this}}/>
+				<span class="dt-table__leader-name">{{this.real_name}}</span>
+			</div>
+
+		</div>
+		<div class="dt-table__row">
+			<div class="dt-table__col dt-table__col--heading">Rank</div>
+			<div class="dt-table__col dt-table__col--data">{{inc @index}}</div>
+		</div>
+		<div class="dt-table__row">
+			<div class="dt-table__col dt-table__col--heading">Donuts</div>
+			<div class="dt-table__col dt-table__col--data">{{this.lifetimeDonuts}} 🍩</div>
+		</div>
+	</div>
+	{{/each}}
+
+
 	<div class="dt-table dt-table-row--directions">
-		<h1 class="dt-title dt-title--donut"><img alt="Donut" height="40" width="auto" src="./donut.png" /> How to Donut <img alt="Donut" height="40" width="auto" src="./donut.png" /></h1>
+		<div class="dt-title dt-title--donut">
+			<img alt="Donut" height="40" width="auto" src="./donut.png" />
+			<h1>How to Donut</h1>
+			<img alt="Donut" height="40" width="auto" src="./donut.png" />
+		</div>
 		<p>Add a donut after someone's username like this <code>@username :doughnut:</code>, <code>@username :donuttime:</code> or <code>@username :donut2:</code>. You can include a message as well.<br>Everyone has <b>6</b> donuts to give out per day and can only give donuts in the <code>#donuttime</code> channel.</p>
 	</div>
 </div>

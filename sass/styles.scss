@@ -14,7 +14,6 @@ html {
 }
 
 .wrapper {
-    max-width: 1000px;
     margin: 0 auto;
 }
 
@@ -125,86 +124,176 @@ body {
     position: absolute;
     transform: scale(1.4) translateY(10px);
     width: 100%;
-    z-index: -1;
+    z-index: 0;
 }
 
 .main {
     display: grid;
     grid-template-columns: 1fr 80vw 1fr;
-    grid-column-gap: 16px;
+    grid-row-gap: 48px;
 }
 
 .dt-haven-logo {
-    width: 48px;
-    position: fixed;
+    width: 36px;
+    position: absolute;
     top: 10px;
+    left: 10px;
+    transition: width .2s ease;
 }
 
 @media (min-width: 768px) {
     .dt-haven-logo {
-        width: 64px;
+        width: 48px;
+        transition: width .2s ease;
     }
+}
+
+.dt-header {
+    grid-row: 1;
+    grid-column: 1 / 4;
+    height: 192px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
 }
 
 .dt-title {
     font-size: 36px;
-    grid-row: 1;
-    grid-column: 2 / 3;
-    text-align: center;
     color: white;
+    margin: 0px;
     font-family: 'Fredoka One', cursive;
     letter-spacing: .2px;
-    max-width: 400px;
-    margin: 48px auto 0;
+    max-width: 396px;
+    text-align: center;
+    transition: .2s ease font-size;
 }
 
 @media (min-width: 768px) {
     .dt-title {
         font-size: 48px;
-        margin: 48px auto 0;
+    }
+
+    .dt-header {
+        height: 192px;
     }
 }
 
 @media (min-width: 1024px) {
     .dt-title {
-        font-size: 72px;
-        max-width: 600px;
-        margin: 96px auto 0;
+        font-size: 64px;
     }
 }
 
 .dt-title--donut {
     color: black;
     font-size: 48px;
-    margin: 48px auto 0;
 }
 
+// ---------------------------------------------------------------------------------
+// Table Styles
+// ---------------------------------------------------------------------------------
 .dt-table {
-    margin: 60px 0 20px;
     grid-column: 2 / 3;
     background: white;
     font-family: 'Source Sans Pro', sans-serif;
+    z-index: 1;
+
+    &__row {
+        display: flex;
+        flex-direction: row;
+        padding: 16px 32px;
+        width: 100%;
+        border-bottom: 1px solid #dad9d9;
+    }
+
+    &__row--heading,
+    &__col--heading {
+        font-weight: 700;
+        color: gray;
+    }
+
+    &__row--heading {
+        font-size: 18px;
+        white-space: nowrap;
+    }
+
+    &__row--data {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    &__col--data {
+        color: black;
+        font-weight: 700;
+        font-size: 24px;
+    }
+
+    &__avatar {
+        margin-right: 10px;
+        width: 24px;
+    }
 }
 
-.dt-table-row {
-    padding: 16px;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    border-bottom: 1px solid #dad9d9;
+.dt-table--desktop {
+    display: none;
+
+    .dt-table__row .dt-table__col:first-child {
+        width: 15%;
+    }
+
+    .dt-table__row .dt-table__col:nth-child(2) {
+        width: 65%;
+    }
+
+    .dt-table__row .dt-table__col:nth-child(3) {
+        width: 20%;
+    }
+
+    .dt-table__row:nth-of-type(2) .dt-table__col:first-of-type {
+        &::after {
+            content: '👑';
+            margin-left: 10px;
+
+        }
+    }
+
+
+    @media (min-width: 768px) {
+        display: block;
+    }
 }
 
-.dt-table-row--title {
-    font-size: 16px;
-    font-weight: 700;
-    color: gray;
-    padding: 16px;
+.dt-table--mobile {
+    display: block;
+
+    .dt-table__row {
+        justify-content: space-between;
+    }
+
+    .dt-table__col--heading {
+        width: 33.333333%;
+    }
+
+    .dt-table__col--data {
+
+    }
+
+    .dt-table__leader-name {
+        color: black;
+        font-weight: 700;
+        font-size: 21px;
+    }
+
+    @media (min-width: 768px) {
+        display: none;
+    }
 }
 
-.dt-table-row--data {
-    font-size: 18px;
-    font-weight: 700;
-}
+
+
+
+
 
 .dt-table-row--directions {
     padding: 16px;
@@ -216,21 +305,15 @@ body {
     border-bottom: 1px solid #dad9d9;
 }
 
+
+
 @media (min-width: 768px) {
-    .dt-table-row--data {
+    .dt-table__row--data {
         font-size: 24px;
     }
 }
 
-.dt-table-col {
-    height: 100%;
-    width: 33.333333333%;
-}
 
-.dt-table-col--avatar {
-    height: 24px;
-    padding-right: 10px;
-}
 
 .dt-footer {
     display: flex;
