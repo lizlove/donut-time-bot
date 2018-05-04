@@ -85,7 +85,8 @@ module.exports = function(controller) {
                     recipientObj = {
                         id: recipientId,
                         dailyDonutsDonated: 0,
-                        lifetimeDonuts: 0
+                        lifetimeDonuts: 0,
+                        lifetimeDonutsGiven: 0
                     };
                 }
 
@@ -112,6 +113,10 @@ module.exports = function(controller) {
 
     function notifySenderOfDonutsSent(recipientId, senderObj, count) {
         senderObj.dailyDonutsDonated += count;
+
+        // Increment field while staying robust to missing data.
+        const givenSoFar = senderObj.lifetimeDonutsGiven;
+        senderObj.lifetimeDonutsGiven = givenSoFar ? givenSoFar + count : count;
 
         console.log(`notifySenderOfDonutsSent, about to save: ${ JSON.stringify(senderObj) }`);
 
