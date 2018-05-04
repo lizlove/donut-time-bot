@@ -151,7 +151,8 @@ body {
 .dt-header {
     grid-row: 1;
     grid-column: 1 / 4;
-    height: 192px;
+    height: 128px;
+    padding-top: 38px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -185,9 +186,46 @@ body {
     }
 }
 
+.dt-title-container {
+    display: flex;
+    margin-bottom: 36px;
+}
+
+.dt-donut-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .dt-title--donut {
     color: black;
-    font-size: 48px;
+    font-size: 36px;
+    margin: 0 10px;
+
+    @media (min-width: 768px) {
+        font-size: 48px;
+    }
+}
+
+.dt-table-text {
+    font-size: 18px;
+    line-height: 28px;
+    margin: 0 0 36px;
+
+    @media (min-width: 768px) {
+        font-size: 20px;
+    }
+}
+
+.dt-code {
+    color: #018caf;
+    font-size: 90%;
+    white-space: nowrap;
+    background: transparent;
+}
+
+#footer {
+    padding: 48px;
 }
 
 // ---------------------------------------------------------------------------------
@@ -296,12 +334,14 @@ body {
 
 
 .dt-table-row--directions {
-    padding: 16px;
+    padding: 48px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
     border-bottom: 1px solid #dad9d9;
 }
 
