@@ -53,6 +53,12 @@ module.exports = function(controller) {
                     recipientsArr = Array.from(new Set(recipientsArr))
                         // Format
                         .map((recipientId) => recipientId.replace(/[<@>]/g, ''))
+                        // Sanitize for security
+                        .filter((recipientId) =>
+                            recipientId.match(/^[A-Z0-9]+$/) &&
+                            recipientId.length >= 8 &&
+                            recipientId.length <= 13
+                        )
                         // Anticheat
                         .filter((recipientId) => (recipientId !== senderId) || secretMode);
 
