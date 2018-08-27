@@ -4,7 +4,9 @@ Find your center. Give thanks with donuts on slack.
 
 ![rolling-donut](https://raw.githubusercontent.com/lizlove/donut-time-bot/master/donuttime-board/public/rolling-donut.gif)
 
-![rolling-donut](/uploads/5d6b5fce2535c93aba38557e96c6c511/rolling-donut.gif)
+
+[![Donut time is coming](https://i.vimeocdn.com/video/698645746_200x150.webp)](https://vimeo.com/268003604)
+
 
 ## Getting Started
 
