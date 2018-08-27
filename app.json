@@ -1,0 +1,32 @@
+{
+  "name": "Donut Time Bot",
+  "description": "Find your center. Give thanks with donuts on Slack.",
+  "repository": "https://github.com/lizlove/donut-time-bot.git",
+  "keywords": ["node", "bots", "slack","botkit", "donuts"],
+  "website": "https://studio.botkit.ai/",
+  "success_url":"/",
+  "addons":[
+    {
+      "plan": "mongolab",
+      "as": "MONGO"
+    }
+  ],
+  "env": {
+      "clientId": {
+          "description": "Client ID provided by Slack"
+      },
+      "clientSecret": {
+          "description": "Client Secret provided by Slack"
+      },
+      "studio_token": {
+          "description": "Token associated with your bot in Botkit Studio",
+          "required":false
+      },
+      "mongoUri": {
+          "description": "URI provided by mongo"
+      },
+      "slackToken": {
+        "description": "Token provided by Slack"
+      }
+  }
+}

@@ -50,17 +50,11 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 Thanks to the following:
 * [Howdy.ai](https://www.botkit.ai/) botkit studio for bot infrastructure
 * Gulshan Kirat for inspiration and product support
-* Wojciech & K-Pop corner for dockerization and environment support
-* [Haven Life](https://www.havenlife.com/) hackathon for building time and resources
 * [Lenny](https://www.instagram.com/lillenlen/) for canine awesomeness
 
 
 ## Remaining Questions
-
-* What is our domain? How do we get one?
 * Set dailyreset function to an AWS chron job
-* Mongodb setup
-* MongoDB uri and SLACK_TOKEN configs to be updated for new Haven environment
 
 
 ## Future ToDos:
