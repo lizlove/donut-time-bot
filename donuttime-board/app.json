@@ -1,0 +1,21 @@
+{
+  "name": "Donut Time Board",
+  "description": "Find your center. Give thanks with donuts on Slack.",
+  "repository": "https: //gitlab.dev.havenlife.com/hit/donuttime",
+  "keywords": ["node", "bots", "slack","botkit", "donuts"],
+  "success_url":"/",
+  "addons":[
+    {
+      "plan": "mongolab",
+      "as": "MONGO"
+    }
+  ],
+  "env": {
+      "MONGO_URI": {
+          "description": "URI provided by mongo"
+      },
+      "SLACK_TOKEN": {
+        "description": "Token provided by Slack"
+      }
+  }
+}

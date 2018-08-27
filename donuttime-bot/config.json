@@ -1,0 +1,6 @@
+{  
+    "CLIENT_ID": "13962040612.323802081317",
+    "CLIENT_SECRET": "3cda5d55a502e5fabbefc3d2a437884a",
+    "MONGO_URI": "mongodb://heroku_k227n71w:7cqvoi04oigbdpduvn70ct6ljf@ds213259.mlab.com:13259/heroku_k227n71w",
+    "PORT": "3000"
+ }

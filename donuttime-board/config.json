@@ -1,0 +1,12 @@
+{
+    "MONGO_URI": "mongodb://heroku_k227n71w:7cqvoi04oigbdpduvn70ct6ljf@ds213259.mlab.com:13259/heroku_k227n71w",
+    "SLACK_TOKEN": "xoxp-13962040612-13967841335-356930399686-4f3ffb238e42cf9050b8827687275e14",
+    "PORT": "3000",
+    "BLACKLIST": [
+        "D0GK339RN",
+        "D9Q0NDWKF",
+        "D9PA82SGH",
+        "D38NAD5CZ",
+        "D9QU70Y3H"
+    ]
+}

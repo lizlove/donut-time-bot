@@ -1,0 +1,28 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# npm
+.npm
+node_modules
+node_modules/*
+package-lock.json
+
+# environment variables
+.env
+
+# local temp data
+T0DUA16J0.json
+123FOO.json
+123FOO2.json
+
+# mac
+.DS_Store
+
+# vscode
+.vscode
+
+# sass cache
+.sass-cache
+.sass-cache/*

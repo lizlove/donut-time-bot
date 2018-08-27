@@ -1,0 +1,378 @@
+$botkit_purple: #a795ef;
+* {
+    box-sizing: border-box;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    font-family: sans-serif;
+    background: #1CB2DC;
+    height: 100vh;
+}
+
+.wrapper {
+    margin: 0 auto;
+}
+
+.box {
+    border: 2px solid #CCC;
+    padding: 1rem calc(1rem - 2px);
+    margin-bottom: 1rem;
+    h1,
+    h2,
+    h3 {
+        margin-top: 0;
+    }
+}
+
+footer {
+    text-align: center;
+}
+
+.hero {
+    text-align: center;
+    padding: 2rem;
+    h1 {
+        font-size: 4rem;
+    }
+}
+
+a {
+    color: $botkit_purple;
+}
+
+.copyurl {
+    width: 100%;
+    font-size: 1.5rem;
+}
+
+div.input {
+    label {
+        font-weight: bold;
+        font-size: smaller;
+    }
+}
+
+.addon {
+    display: flex;
+    border: 1px solid #999;
+    border-radius: 6px;
+    padding: 5px;
+    background: #F0F0F0;
+    textarea,
+    input {
+        flex-grow: 1;
+        border: 0;
+        background: transparent;
+    }
+    button {
+        flex-grow: 0;
+        background: transparent;
+        border: 1px solid #999;
+        border-radius: 6px;
+        font-weight: bold;
+        &.textarea {
+            align-self: flex-start;
+            padding: 0.5rem;
+        }
+        &:hover {
+            background: #FFF;
+            color: $botkit_purple;
+        }
+    }
+}
+
+div.hr {
+    border: 1px dashed #ccc;
+    width: 10%;
+    margin: 4rem auto;
+    height: 1px;
+}
+
+a.button {
+    border: 2px solid $botkit_purple;
+    font-weight: bold; // font-size: 4rem;
+    margin: 0;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 0.5rem 2rem;
+    text-align: center;
+    text-decoration: none; // color: #FFF;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+    background-color: #FFF;
+    transition: box-shadow 0.1s linear;
+    &:hover {
+        // background-color: rgba($botkit_purple, 0.1);
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #1CB2DC;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.dt-confetti-bg {
+    position: absolute;
+    transform: scale(1.4) translateY(10px);
+    width: 100%;
+    z-index: 0;
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr 80vw 1fr;
+    grid-row-gap: 48px;
+}
+
+.dt-haven-logo {
+    width: 36px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    transition: width .2s ease;
+}
+
+@media (min-width: 768px) {
+    .dt-haven-logo {
+        width: 48px;
+        transition: width .2s ease;
+    }
+}
+
+.dt-header {
+    grid-row: 1;
+    grid-column: 1 / 4;
+    height: 128px;
+    padding-top: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.dt-title {
+    font-size: 36px;
+    color: white;
+    margin: 0px;
+    font-family: 'Fredoka One', cursive;
+    letter-spacing: .2px;
+    max-width: 396px;
+    text-align: center;
+    transition: .2s ease font-size;
+}
+
+@media (min-width: 768px) {
+    .dt-title {
+        font-size: 48px;
+    }
+
+    .dt-header {
+        height: 192px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .dt-title {
+        font-size: 64px;
+    }
+}
+
+.dt-title-container {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin-bottom: 36px;
+}
+
+.dt-donut-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dt-title--donut {
+    color: black;
+    font-size: 36px;
+    margin: 0 10px;
+
+    @media (min-width: 768px) {
+        font-size: 48px;
+    }
+}
+
+.dt-table-text {
+    font-size: 18px;
+    line-height: 28px;
+    margin: 0 0 36px;
+
+    @media (min-width: 768px) {
+        font-size: 20px;
+    }
+}
+
+.dt-code {
+    color: #018caf;
+    font-size: 90%;
+    white-space: nowrap;
+    background: transparent;
+}
+
+#footer {
+    padding: 48px;
+}
+
+// ---------------------------------------------------------------------------------
+// Table Styles
+// ---------------------------------------------------------------------------------
+.dt-table {
+    grid-column: 2 / 3;
+    background: white;
+    font-family: 'Source Sans Pro', sans-serif;
+    z-index: 1;
+
+    &__row {
+        display: flex;
+        flex-direction: row;
+        padding: 16px 32px;
+        width: 100%;
+        border-bottom: 1px solid #dad9d9;
+    }
+
+    &__row--heading,
+    &__col--heading {
+        font-weight: 700;
+        color: gray;
+    }
+
+    &__row--heading {
+        font-size: 18px;
+        white-space: nowrap;
+    }
+
+    &__row--data {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    &__col--data {
+        color: black;
+        font-weight: 700;
+        font-size: 24px;
+    }
+
+    &__avatar {
+        margin-right: 10px;
+        width: 24px;
+    }
+}
+
+.dt-table--desktop {
+    display: none;
+
+    .dt-table__row .dt-table__col:first-child {
+        width: 15%;
+    }
+
+    .dt-table__row .dt-table__col:nth-child(2) {
+        width: 55%;
+    }
+
+    .dt-table__row .dt-table__col:nth-child(3) {
+        width: 15%;
+        text-align: center;
+    }
+
+    .dt-table__row .dt-table__col:nth-child(4) {
+        width: 15%;
+        text-align: center;
+    }
+
+    .dt-table__row:nth-of-type(2) .dt-table__col:first-of-type {
+        &::after {
+            content: '👑';
+            margin-left: 10px;
+
+        }
+    }
+
+
+    @media (min-width: 768px) {
+        display: block;
+    }
+}
+
+.dt-table--mobile {
+    display: block;
+
+    .dt-table__row {
+        justify-content: space-between;
+    }
+
+    .dt-table__col--heading {
+        width: 33.333333%;
+    }
+
+    .dt-table__col--data {
+
+    }
+
+    .dt-table__leader-name {
+        color: black;
+        font-weight: 700;
+        font-size: 21px;
+    }
+
+    @media (min-width: 768px) {
+        display: none;
+    }
+}
+
+
+
+
+
+
+.dt-table-row--directions {
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border-bottom: 1px solid #dad9d9;
+}
+
+
+
+@media (min-width: 768px) {
+    .dt-table__row--data {
+        font-size: 24px;
+    }
+}
+
+
+
+.dt-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+code {
+    background-color: #dadada;
+    color: #575757;
+    font-size: 90%;
+    white-space: nowrap;
+}
